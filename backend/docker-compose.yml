@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-#  cinema-backend:
-#    build:
-#      context: ./backend/
-#      dockerfile: build/docker/Dockerfile
-#    network_mode: host
-#    depends_on:
-#      - cinema-database
-#      - cinema-session-redis
+  cinema-backend:
+    build:
+      context: ./
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - cinema-database
+      - cinema-session-redis
 
   cinema-database:
     image: postgres:11-alpine

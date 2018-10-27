@@ -18,9 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.Optional;
 
@@ -40,7 +42,10 @@ class UserCredentialsServiceTest {
      @InjectMocks
      private UserCredentialsService sut;
 
+     private
+
      @Nested
+     @WithUserDetails("TestUser")
      class ChangePassword {
 
           private String currentPassword = "KubaKuba0-";
@@ -58,11 +63,9 @@ class UserCredentialsServiceTest {
           private UserCredentials userCredentials =
                UserCredentialsFactory.createUserCredentials(username, currentPasswordHashed);
 
-          private UserDetails issuer =
-               AuthenticationFactory.createIssuer(username, currentPasswordHashed);
 
           @BeforeEach
-          public void setUp() {
+          void setUp() {
                Mockito.when(userRepository.findByUsername(username)).thenReturn(Optional.of(userCredentials));
                Mockito.when(userMapper.updatePassword(any(ChangePasswordDTO.class), any())).thenReturn(userCredentials);
           }
@@ -70,7 +73,7 @@ class UserCredentialsServiceTest {
           @Test
           @DisplayName("Should call save when current passwords are matching")
           void callIfMatch() {
-               sut.changePassword(correctChangePasswordDTO, issuer);
+               sut.changePassword(correctChangePasswordDTO);
                Mockito.verify(userRepository, Mockito.times(1)).save(any());
           }
 
@@ -78,7 +81,7 @@ class UserCredentialsServiceTest {
           @DisplayName("Should throw exception if passwords does not match")
           void throwIfNotMatching() {
                assertThrows(PasswordsMatchException.class,
-                    () -> sut.changePassword(wrongChangePasswordDTO, issuer));
+                    () -> sut.changePassword(wrongChangePasswordDTO));
           }
      }
 }

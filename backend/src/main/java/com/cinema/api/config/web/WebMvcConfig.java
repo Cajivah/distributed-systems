@@ -40,7 +40,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      @Override
      public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-          registry.addResourceHandler("/app/", "/app/**")
+          registry.addResourceHandler("/app", "/app/**")
                   .resourceChain(true)
                   .addResolver(new FrontendResolver());
 
