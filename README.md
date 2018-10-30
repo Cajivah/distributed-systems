@@ -1,1 +1,5 @@
-# distributed-systems
+# Distributed system for cinema management
+
+## Backend
+
+## Frontend 
