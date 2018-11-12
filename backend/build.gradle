@@ -71,9 +71,9 @@ ext {
     passayVersion = '1.3.1'
     nimbudJoseJwtVersion = '5.5'
     postgresqlVersion = '42.2.5'
-    jacksonDatatypeJsr310Version = '2.4.0'
+    jacksonDatatypeJsr310Version = '2.9.7'
     springVersion = '5.1.1.RELEASE'
-    springSessionCoreVersion = '2.1.0.RELEASE'
+    springSessionCoreVersion = '2.1.1.RELEASE'
     springSessionVersion = '1.3.3.RELEASE'
     jaxbVersion = '2.3.0'
     javaxActivationVersion = '1.1.1'
@@ -83,14 +83,13 @@ ext {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-    implementation("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-mail:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
-    implementation('org.springframework.session:spring-session-core')
+    implementation("org.springframework.session:spring-session-core:${springSessionCoreVersion}")
     implementation("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
     implementation("io.lettuce:lettuce-core:${lettuceVersion}")
     implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
@@ -99,20 +98,21 @@ dependencies {
     implementation("org.passay:passay:${passayVersion}")
     implementation("io.vavr:vavr:${vavrVersion}")
     implementation("org.javassist:javassist:${javassistVersion}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatatypeJsr310Version}")
 
     implementation("javax.xml.bind:jaxb-api:${jaxbVersion}")
     implementation("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
     implementation("org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}")
     implementation("javax.activation:activation:${javaxActivationVersion}")
 
-    runtimeOnly('org.postgresql:postgresql')
+    runtimeOnly("org.postgresql:postgresql:${postgresqlVersion}")
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}"
 
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.security:spring-security-test')
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.security:spring-security-test")
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testCompile("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
     testCompile("org.mockito:mockito-core:${mockitoCoreVersion}")
