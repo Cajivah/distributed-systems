@@ -31,11 +31,11 @@ public class BookingService {
           final Seance seance = seanceService.getOne(createBookingDTO.getSeanceId());
           final Set<BookingSeat> bookingSeats = createBookingSeats(seance, createBookingDTO);
           final Booking booking = Booking.builder()
-                                       .bookingIdentifier(UUID.randomUUID().toString())
-                                       .owner(createBookingDTO.getOwner())
-                                       .seance(seance)
-                                       .seats(bookingSeats)
-                                       .build();
+                                         .bookingIdentifier(UUID.randomUUID().toString())
+                                         .owner(createBookingDTO.getOwner())
+                                         .seance(seance)
+                                         .seats(bookingSeats)
+                                         .build();
 
           return bookingRepository.save(booking);
 
