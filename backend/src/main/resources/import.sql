@@ -24,17 +24,20 @@ INSERT INTO public.movie (id, description, director, length_minutes, title) VALU
 INSERT INTO public.room (id, name, cinema_id) VALUES (1, 'Room 1', 1)
 ;
 
-INSERT INTO public.seats_row (id, row_code) VALUES (1, '1'), (2, '2')
+INSERT INTO public.seats_row (id, row_code, room_id, index) VALUES (1, '1', 1, 0), (2, '2', 1, 1)
 ;
 
-INSERT INTO public.seat (id, seat_category, seat_code, index) VALUES (1, 'VIP', '1', 0),
-  (id, seat_category, seat_code, index) VALUES (2, 'VIP', '2', 1),
-  (id, seat_category, seat_code, index) VALUES (3, 'VIP', '1', 0),
-  (id, seat_category, seat_code, index) VALUES (4, 'VIP', '2', 1)
+INSERT INTO public.seat (id, seat_category, seat_code, index, seats_row_id) VALUES (1, 'VIP', '1', 0, 1),
+  (2, 'VIP', '2', 1, 1),
+  (3, 'VIP', '1', 0, 2),
+  (4, 'VIP', '2', 1, 2)
 ;
 
 INSERT INTO public.seance (id, start, movie_id, room_id) VALUES (1, '2018-11-11 21:30:00.000000', 1, 1)
 ;
+
+INSERT INTO public.seance_prices (seance_id, currency, price, seat_category) VALUES (1, 'PLN', 120, 'VIP'),
+  (1, 'PLN', 80, 'REGULAR');
 
 -- workaround for sequence not being updated
 select setval('hibernate_sequence', 1000);

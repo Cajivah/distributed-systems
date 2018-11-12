@@ -20,4 +20,8 @@ public class SeanceService {
      public List<Seance> getAll() {
           return seanceRepository.findAll();
      }
+
+     public Seance getOne(Long id) {
+          return seanceRepository.getOne(id);
+     }
 }
