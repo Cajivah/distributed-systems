@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  db-master:
+    build: ./master-server
+    restart: always
+    networks: 
+        - dbs
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+      POSTGRES_DB: example
+
+  db-slave:
+    build: ./slave-db
+    restart: always
+    networks: 
+        - dbs
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+      POSTGRES_DB: example
+      
+networks:
+    dbs:
+        driver: bridge
