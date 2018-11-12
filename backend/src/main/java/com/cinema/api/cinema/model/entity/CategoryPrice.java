@@ -1,36 +1,33 @@
 package com.cinema.api.cinema.model.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Data
-@Builder
 @Entity
-@NoArgsConstructor
+@Builder
+@Data
 @AllArgsConstructor
-public class Movie {
+@NoArgsConstructor
+public class CategoryPrice {
 
      @Id
      @GeneratedValue
      private Long id;
 
      @Column(nullable = false)
-     private Integer lengthMinutes;
+     @Enumerated(EnumType.STRING)
+     private SeatCategory category;
 
-     @Column(nullable = false)
-     private String director;
-
-     @Column(nullable = false)
-     private String title;
-
-     @Column(nullable = false)
-     private String description;
+     @Embedded
+     private Price price;
 }

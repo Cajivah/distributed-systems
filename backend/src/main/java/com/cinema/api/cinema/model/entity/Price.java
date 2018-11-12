@@ -1,7 +1,9 @@
 package com.cinema.api.cinema.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -11,6 +13,8 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Price {
 
      @Column(nullable = false, name = "price")

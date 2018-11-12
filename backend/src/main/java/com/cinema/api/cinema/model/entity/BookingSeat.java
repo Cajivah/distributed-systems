@@ -1,12 +1,13 @@
 package com.cinema.api.cinema.model.entity;
 
-import jdk.jfr.Enabled;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -16,14 +17,15 @@ import javax.persistence.ManyToOne;
 public class BookingSeat {
 
      @Id
-     @ManyToOne(optional = false)
+     @GeneratedValue
+     private Long id;
+
+     @ManyToOne
      private Seat seat;
 
-     @Id
-     @ManyToOne(optional = false)
-     private Booking booking;
+     @Enumerated(EnumType.STRING)
+     private SeatStatus seatStatus;
 
-     @Column(nullable = false)
      @Embedded
      private Price price;
 }
