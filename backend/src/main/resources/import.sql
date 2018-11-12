@@ -39,5 +39,14 @@ INSERT INTO public.seance (id, start, movie_id, room_id) VALUES (1, '2018-11-11 
 INSERT INTO public.seance_prices (seance_id, currency, price, seat_category) VALUES (1, 'PLN', 120, 'VIP'),
   (1, 'PLN', 80, 'REGULAR');
 
+INSERT INTO public.booking_owner (id, email, first_name, last_name, phone) VALUES (1, 'jan@kowalski', 'Jan', 'Kowalski', null);
+
+INSERT INTO public.booking (id, booking_identifier, owner_id, seance_id) VALUES (1, '7e9715c3-2ae4-4db7-897b-91681f2ef9a7', 1, 1);
+
+INSERT INTO public.booking_seat (id, currency, price, seat_status, seat_id, booking_id) VALUES
+  (1, 'PLN', 120.00, 'RESERVED', 1, 1),
+  (2, 'PLN', 120.00, 'RESERVED', 2, 1)
+;
+
 -- workaround for sequence not being updated
 select setval('hibernate_sequence', 1000);

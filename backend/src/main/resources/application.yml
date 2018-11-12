@@ -34,7 +34,7 @@ spring:
             enable: true
             require: true
     password: 42asd87!f0A
-    default-encoding: UTF-8 
+    default-encoding: UTF-8
   thymeleaf:
     encoding: UTF-8
 mail:

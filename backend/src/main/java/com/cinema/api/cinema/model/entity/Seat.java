@@ -1,6 +1,5 @@
 package com.cinema.api.cinema.model.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Data
 @Builder
@@ -29,4 +29,7 @@ public class Seat {
 
      @Enumerated(EnumType.STRING)
      private SeatCategory seatCategory;
+
+     @ManyToOne
+     private SeatsRow row;
 }

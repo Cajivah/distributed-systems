@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -32,14 +31,14 @@ public class Seance {
      @Column(nullable = false)
      private ZonedDateTime start;
 
-     @ElementCollection(fetch = FetchType.EAGER)
+     @ElementCollection
      @MapKeyColumn(name = "seat_category")
      @MapKeyEnumerated(EnumType.STRING)
      private Map<SeatCategory, Price> prices;
 
-     @ManyToOne(optional = false, fetch = FetchType.EAGER)
+     @ManyToOne(optional = false)
      private Room room;
 
-     @ManyToOne(optional = false, fetch = FetchType.EAGER)
+     @ManyToOne(optional = false)
      private Movie movie;
 }

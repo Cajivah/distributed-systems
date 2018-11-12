@@ -1,14 +1,13 @@
 package com.cinema.api.cinema.model.entity;
 
-
-import com.cinema.api.user.model.entity.UserCredentials;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,6 +20,8 @@ import java.util.Set;
 @Data
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Booking {
 
      @Id
@@ -33,10 +34,10 @@ public class Booking {
      @Column(nullable = false, unique = true)
      private String bookingIdentifier;
 
-     @ManyToOne(optional = false, fetch = FetchType.EAGER)
+     @ManyToOne(optional = false)
      private Seance seance;
 
-     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+     @OneToMany(cascade = CascadeType.ALL)
      @JoinColumn(name = "BOOKING_ID")
      private Set<BookingSeat> seats;
 }
