@@ -13,7 +13,7 @@ import javax.persistence.Column;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HashedPassword {
 
-     @Column(length = 60, name = "password")
+     @Column(length = 60, name = "password", nullable = false)
      String value;
 
      public static HashedPassword of(String plainTextPassword, PasswordEncoder passwordEncoder) {

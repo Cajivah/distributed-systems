@@ -37,7 +37,6 @@ spring:
     default-encoding: UTF-8
   thymeleaf:
     encoding: UTF-8
-
 mail:
   extended:
     no_reply_address: 'no-reply@cinema.com'

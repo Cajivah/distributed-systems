@@ -40,6 +40,6 @@ public class UserLogin {
 
      private String userAgent;
 
-     @ManyToOne
+     @ManyToOne(optional = false)
      private UserCredentials userCredentials;
 }
