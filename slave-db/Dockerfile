@@ -1,3 +1,7 @@
-FROM postgres:latest
+FROM postgres:11.1-alpine
 
-COPY pg_hba.conf /tmp/conf/pg_hba.conf
+RUN apk add --update iputils
+RUN apk add --no-cache su-exec
+COPY init-slave.sh /docker-entrypoint-initdb.d/_init-slave.sh
+
+RUN chmod +x /docker-entrypoint.sh

@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: example
       POSTGRES_DB: example
+      REPLICATION_USER: repuser
+      REPLICATION_PASSWORD: password
 
   db-slave:
     build: ./slave-db
@@ -17,9 +19,11 @@ services:
     networks: 
         - dbs
     environment:
-      POSTGRES_PASSWORD: example
-      POSTGRES_USER: example
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
       POSTGRES_DB: example
+      REPLICATION_USER: repuser
+      REPLICATION_PASSWORD: password
       
 networks:
     dbs:
