@@ -28,6 +28,9 @@ services:
       POSTGRES_DB: example
       REPLICATION_USER: repuser
       REPLICATION_PASSWORD: password
+      MASTER_ADDRESS: db-master
+      MASTER_PORT: '5432'
+      MASTER_REPLICATION_SLOT: replica_1_slot
       
 networks:
     dbs:
