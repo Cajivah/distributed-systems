@@ -4,6 +4,8 @@ services:
   db-master:
     build: ./master-server
     restart: always
+    ports:
+        - 5432:5432
     networks: 
         - dbs
     environment:
@@ -16,6 +18,8 @@ services:
   db-slave:
     build: ./slave-db
     restart: always
+    ports:
+        - 5431:5432
     networks: 
         - dbs
     environment:

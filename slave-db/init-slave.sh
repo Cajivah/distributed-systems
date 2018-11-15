@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+pg_ctl -D ${PGDATA} -m fast -w stop
+rm -rf /var/lib/postgresql/data/*
+
+
 until ping -c 1 -W 1 db-master
 do
     echo "Waiting for master to ping..."
@@ -8,22 +12,24 @@ do
 done
 
 echo "*:*:*:$REPLICATION_USER:$REPLICATION_PASSWORD" > ~/.pgpass
+chown postgres:postgres ~/.pgpass
 chmod 0600 ~/.pgpass
 echo $PGPASSWORD
 export PGPASSWORD="$REPLICATION_PASSWORD"
 
 rm -rf {PGDATA}
-until pg_basebackup -h db-master -D ${PGDATA} -U ${REPLICATION_USER} -vP
+until pg_basebackup -h db-master -D ${PGDATA} -U ${REPLICATION_USER} -vP -w
 do
 cat ~/.pgpass
 echo $REPLICATION_USER
 echo $PGPASSWORD
 echo "Waiting for master to connect..."
-rm -rf /var/lib/postgresql/data/*
 
 sleep 4s
 
 done
+
+echo "host replication all 0.0.0.0/0 scram-sha-256" >> "$PGDATA/pg_hba.conf"
 
 cat > ${PGDATA}/recovery.conf <<EOF
 
@@ -32,14 +38,7 @@ primary_conninfo = 'host=db-master port=5432 user=$REPLICATION_USER password=pas
 primary_slot_name = 'replica_1_slot' # Name of the replication slot we created on the master
 
 EOF
-chmod 0600 "${PGDATA}/recovery.conf"
+chown postgres:postgres ${PGDATA}/recovery.conf
+chmod 0600 ${PGDATA}/recovery.conf
 
-cat >> ${PGDATA}/postgresql.conf <<EOF
-
-hot_standby = on
-wal_level = replica
-max_wal_senders = 2
-max_replication_slots = 2
-synchronous_commit = off
-
-EOF
+pg_ctl -D ${PGDATA} -w start
