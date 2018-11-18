@@ -3,35 +3,50 @@ version: '3.7'
 services:
   db-master:
     build: ./master-server
-    restart: always
     ports:
         - 5432:5432
     networks: 
-        - dbs
+        - persistence-network
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: example
       POSTGRES_DB: example
-      REPLICATION_USER: repuser
-      REPLICATION_PASSWORD: password
+      REPLICATION_USERS_FILE: '/docker-entrypoint-initdb.d/replication-users.txt'
 
-  db-slave:
+  db-slave-1:
     build: ./slave-db
-    restart: always
+    depends_on: 
+        - db-master
     ports:
         - 5431:5432
     networks: 
-        - dbs
+        - persistence-network
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: example
       REPLICATION_USER: repuser
       REPLICATION_PASSWORD: password
-      MASTER_ADDRESS: db-master
-      MASTER_PORT: '5432'
-      MASTER_REPLICATION_SLOT: replica_1_slot
+      REPLICATION_SLOT: replica_1_slot      
+      REPLICATION_MASTER_ADDRESS: db-master
+      REPLICATION_MASTER_PORT: '5432'
+  
+  db-slave-2:
+    build: ./slave-db
+    depends_on: 
+        - db-master
+    ports:
+        - 5430:5432
+    networks: 
+        - persistence-network
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      REPLICATION_USER: repuser2
+      REPLICATION_PASSWORD: password2
+      REPLICATION_SLOT: replica_2_slot
+      REPLICATION_MASTER_ADDRESS: db-master
+      REPLICATION_MASTER_PORT: '5432'
       
 networks:
-    dbs:
+    persistence-network:
         driver: bridge
