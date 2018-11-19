@@ -4,7 +4,7 @@ services:
   db-master:
     build: ./master-server
     ports:
-        - 5432:5432
+        - 5440:5432
     networks: 
         - persistence-network
     environment:
@@ -18,7 +18,7 @@ services:
     depends_on: 
         - db-master
     ports:
-        - 5431:5432
+        - 5441:5432
     networks: 
         - persistence-network
     environment:
@@ -35,7 +35,7 @@ services:
     depends_on: 
         - db-master
     ports:
-        - 5430:5432
+        - 5442:5432
     networks: 
         - persistence-network
     environment:

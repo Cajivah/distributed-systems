@@ -18,10 +18,12 @@ for replication in $(cat $REPLICATION_USERS_FILE); do
 	SET password_encryption = 'scram-sha-256';
 	CREATE ROLE $USER WITH REPLICATION PASSWORD '$PASS' LOGIN;
 	EOSQL
+
     replicas_count=$((replicas_count+1))
 done;
 
 # Configure master
+# Additional wal senders for pg_basebackup
 cat >> ${PGDATA}/postgresql.conf <<EOF
 listen_addresses= '*'
 wal_level = replica
