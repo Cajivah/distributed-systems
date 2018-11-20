@@ -22,8 +22,6 @@ services:
     networks: 
         - persistence-network
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
       REPLICATION_USER: repuser
       REPLICATION_PASSWORD: password
       REPLICATION_SLOT: replica_1_slot      
@@ -39,8 +37,6 @@ services:
     networks: 
         - persistence-network
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
       REPLICATION_USER: repuser2
       REPLICATION_PASSWORD: password2
       REPLICATION_SLOT: replica_2_slot
