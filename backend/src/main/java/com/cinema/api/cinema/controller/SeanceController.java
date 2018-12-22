@@ -1,9 +1,11 @@
 package com.cinema.api.cinema.controller;
 
+import com.cinema.api.cinema.model.dto.SeanceExtendedDTO;
 import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.service.SeanceService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +28,10 @@ public class SeanceController {
      @GetMapping
      public List<Seance> getAll() {
           return seanceService.getAll();
+     }
+
+     @GetMapping("{id}")
+     public SeanceExtendedDTO getExtendedInfo(@PathVariable Long id) {
+          return seanceService.getExtendedInfo(id);
      }
 }
