@@ -5,6 +5,7 @@ import com.cinema.api.cinema.repository.SeanceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -12,6 +13,10 @@ import java.util.List;
 public class SeanceService {
 
      private SeanceRepository seanceRepository;
+
+     public List<Seance> getByCinemaIdAndDate(long cinemaId, LocalDate date) {
+          return seanceRepository.findByCinemaIdAndDate(cinemaId, date);
+     }
 
      public Seance save(Seance seance) {
           return seanceRepository.save(seance);
