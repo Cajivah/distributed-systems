@@ -26,7 +26,7 @@ public class ProgrammeService {
           List<Seance> seances = seanceService.getByCinemaIdAndDate(cinemaId, date);
           Map<Movie, List<BasicSeanceDTO>> seancesGroupedByMovie
                = seances.stream()
-                        .collect(groupingBy(Seance::getMovie, mapping(seanceMapper::toSimpleSeance, toList())));
+                        .collect(groupingBy(Seance::getMovie, mapping(seanceMapper::toBasicSeance, toList())));
 
           return seancesGroupedByMovie
                .entrySet()

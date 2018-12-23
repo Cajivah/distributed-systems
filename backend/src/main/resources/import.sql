@@ -34,6 +34,22 @@ values (1, 'In Nazi-occupied France during World War II, a plan to assassinate N
          'wpłynęła na losy trzech pokoleń kobiet z aktorskimi aspiracjami.',
       'Se rokh', 100, 'Trzy twarze');
 
+---- miniaturki
+insert into movie_image (id, image_url, movie_id)
+values (1, 'https://cdn.empireonline.com/jpg/80/0/0/1000/563/0/north/0/0/0/0/0/t/films/16869/images/bk0GylJLneaSbpQZXpgTwleYigq.jpg', 1),
+(2, 'https://images-na.ssl-images-amazon.com/images/I/716EFPZDJOL._RI_SX300_.jpg', 1),
+(3, 'https://thecriticalbreakdown.com/wp-content/uploads/2018/03/ib2-820x394.png', 1),
+(4, 'https://i.wpimg.pl/O/600x264/d.wpimg.pl/366063362--937632025/bohemian-raphsody.jpg', 2),
+(5, 'https://uptone.pl/wp-content/uploads/2016/10/bohemian_rhapsody.jpg', 2),
+(6, 'https://uptone.pl/wp-content/uploads/2016/10/bohemian_rhapsody.jpg', 2),
+(7, 'https://ssl-gfx.filmweb.pl/po/21/96/782196/7858511.6.jpg', 3),
+(8, 'https://1.fwcdn.pl/wv/78/30/47830/thumbnail.47830.4.jpg', 3),
+(9, 'https://i.wpimg.pl/O/644x362/d.wpimg.pl/1315714864--1073736335/pierwszy-czlowiek-ryan.png', 3),
+(10, 'https://ssl-gfx.filmweb.pl/po/79/05/807905/7844190.6.jpg', 4),
+(11, 'http://bok.bialystok.pl/pliki/trzy-twarze.jpg', 4),
+(12, 'http://pelnasala.pl/wp-content/uploads/2018/05/panahi.jpg', 4)
+;
+
 ---- sale
 insert into room (id, name, cinema_id)
 values (1, 'Sala 1', 1),

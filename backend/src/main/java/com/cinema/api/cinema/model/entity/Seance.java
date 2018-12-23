@@ -5,16 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
+import javax.persistence.OneToMany;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -41,4 +45,8 @@ public class Seance {
 
      @ManyToOne(optional = false)
      private Movie movie;
+
+     @OneToMany(cascade = CascadeType.ALL)
+     @JoinColumn(name = "SEANCE_ID")
+     private List<Booking> bookings;
 }
