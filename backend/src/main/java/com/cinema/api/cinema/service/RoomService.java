@@ -6,18 +6,28 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RoomService {
 
-    private final RoomRepository roomRepository;
+     private final RoomRepository roomRepository;
 
-    public Room save(Room room) {
-        return roomRepository.save(room);
-    }
+     public Room save(Room room) {
+          room.setId(null);
+          return roomRepository.save(room);
+     }
 
-    public List<Room> getAll() {
-        return roomRepository.findAll();
-    }
+     public Room update(Room room) {
+          return roomRepository.save(room);
+     }
+
+     public List<Room> getAll() {
+          return roomRepository.findAll();
+     }
+
+     public Optional<Room> getOne(long roomId) {
+          return roomRepository.findById(roomId);
+     }
 }

@@ -1,13 +1,14 @@
 package com.cinema.api.cinema.service;
 
 import com.cinema.api.cinema.mapper.SeanceMapper;
-import com.cinema.api.cinema.mapper.SeatsMapper;
 import com.cinema.api.cinema.mapper.SeatsRowMapper;
 import com.cinema.api.cinema.model.dto.SeanceExtendedDTO;
 import com.cinema.api.cinema.model.dto.SeanceWithSeatPrizesDTO;
 import com.cinema.api.cinema.model.dto.SeatsRowDTO;
+import com.cinema.api.cinema.model.dto.UpdateSeanceDTO;
 import com.cinema.api.cinema.model.entity.Booking;
 import com.cinema.api.cinema.model.entity.BookingSeat;
+import com.cinema.api.cinema.model.entity.Movie;
 import com.cinema.api.cinema.model.entity.Room;
 import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.model.entity.Seat;
@@ -27,13 +28,23 @@ public class SeanceService {
      private final SeanceRepository seanceRepository;
      private final SeanceMapper seanceMapper;
      private final SeatsRowMapper seatsRowMapper;
-     private final SeatsMapper seatsMapper;
+     private final RoomService roomService;
+     private final MovieService movieService;
 
      public List<Seance> getByCinemaIdAndDate(long cinemaId, LocalDate date) {
           return seanceRepository.findByCinemaIdAndDate(cinemaId, date);
      }
 
      public Seance save(Seance seance) {
+          seance.setId(null);
+          return seanceRepository.save(seance);
+     }
+
+     public Seance update(UpdateSeanceDTO seanceDTO) {
+          Movie movie = movieService.getOne(seanceDTO.getMovieId()).get();
+          Room room = roomService.getOne(seanceDTO.getRoomId()).get();
+          Seance seance = seanceRepository.findById(seanceDTO.getId()).get();
+          seance = seanceMapper.update(seance, seanceDTO, movie, room);
           return seanceRepository.save(seance);
      }
 

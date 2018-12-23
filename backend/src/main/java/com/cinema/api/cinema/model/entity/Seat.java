@@ -1,5 +1,6 @@
 package com.cinema.api.cinema.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Seat {
      @Enumerated(EnumType.STRING)
      private SeatCategory seatCategory;
 
+     @JsonIgnore
      @ManyToOne
      private SeatsRow row;
 }
