@@ -21,6 +21,7 @@ public class SecurityConstants {
           "/css/**",
           "/img/**",
           "/favicon.ico",
+          "/programme/**",
      };
      public static final String ANY_PATH = "/**";
 }

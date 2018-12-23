@@ -30,7 +30,7 @@ public class SeanceController {
           return seanceService.getAll();
      }
 
-     @GetMapping("{id}")
+     @GetMapping("/{id}")
      public SeanceExtendedDTO getExtendedInfo(@PathVariable Long id) {
           return seanceService.getExtendedInfo(id);
      }
