@@ -33,7 +33,7 @@ spring:
           starttls:
             enable: true
             require: true
-    password: 42asd87!f0A
+    password: mB=~6_K3[t9M
     default-encoding: UTF-8
   thymeleaf:
     encoding: UTF-8
