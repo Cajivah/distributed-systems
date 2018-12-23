@@ -4,6 +4,7 @@ import com.cinema.api.cinema.model.dto.CreateBookingDTO;
 import com.cinema.api.cinema.model.entity.Booking;
 import com.cinema.api.cinema.service.BookingService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +28,11 @@ public class BookingController {
     @GetMapping
     public List<Booking> getAll() {
         return bookingService.getAll();
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@RequestParam String identifier) {
+         bookingService.delete(identifier);
     }
 }
