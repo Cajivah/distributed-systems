@@ -70,9 +70,9 @@ export default {
   methods: {
     signUp() {
       this.$validator.validateAll()
-        .then((valid) => {
+        .then(valid => new Promise((resolve, reject) => {
           if (!valid) {
-            return;
+            reject();
           }
           const body = {
             ...this.registerForm,
@@ -83,10 +83,12 @@ export default {
           };
           this.$store
             .dispatch(REGISTER, body)
-            .then(() => this.$router.push('login'));
+            .then(() => this.$router.push('login'))
+            .catch(() => reject());
           this.registerForm.passwordPair.password = '';
           this.registerForm.passwordPair.matchingPassword = '';
-        });
+          resolve();
+        }));
     },
   },
 };

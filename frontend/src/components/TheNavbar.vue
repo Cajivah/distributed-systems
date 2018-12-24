@@ -5,7 +5,7 @@
         </router-link>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down toolbar">
-            <template v-if="this.$store.getters.isAuthenticated" >
+            <template v-if="isAuthenticated" >
                 <a class="mr-3 text-xs-center text--color-white text--size-lg text--weight-md">
                     {{ userGreeter }}
                 </a>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { LOGOUT } from '../store/auth/auth.actions';
 
 export default {
@@ -29,6 +30,9 @@ export default {
     userGreeter() {
       return `Hi, ${this.$store.getters.loggedUser.username}!`;
     },
+    ...mapGetters([
+      'isAuthenticated',
+    ]),
   },
   methods: {
     handleLogout() {

@@ -53,19 +53,24 @@ export default {
   },
   methods: {
     submit() {
-      this.$validator.validate().then((valid) => {
+      this.$validator.validate().then(valid => new Promise((resolve, reject) => {
         if (!valid) {
-          return;
+          reject();
         }
         this.$store
           .dispatch(LOGIN, { ...this.loginForm })
-          .then(() => this.$router.push('/'));
-        this.resetForm();
-      });
+          .then(() => {
+            this.$router.push('/');
+            this.resetForm();
+          })
+          .catch(() => reject());
+        resolve();
+      }));
     },
     resetForm() {
       this.loginForm.username = '';
       this.loginForm.password = '';
+      this.errors.clear();
     },
   },
 };
