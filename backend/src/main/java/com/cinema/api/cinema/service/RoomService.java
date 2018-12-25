@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public class RoomService {
           return roomRepository.findAll();
      }
 
-     public Optional<Room> getOne(long roomId) {
-          return roomRepository.findById(roomId);
+     public Room getOne(long roomId) {
+          return roomRepository.getOne(roomId);
      }
 }
