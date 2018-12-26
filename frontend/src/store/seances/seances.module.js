@@ -1,38 +1,34 @@
 import Vue from 'vue';
 import types from './seances.types';
 import {fetchSeances} from "./seances.api";
-import {groupBy, prop, map, pipe, uniq, filter, uniqBy} from 'ramda';
+import {groupBy, prop, map, pipe, sortBy, filter, uniqBy} from 'ramda';
+import moment from 'moment';
+
 
 const state = {
     seances: null,
 };
 
 const getters = {
-    seancesByDateAndMovie: (state) => {
-        const byDateAndMovie = pipe(
-            groupBy(prop('start')),
-            map(groupBy(seance => seance.movie.title))
-        );
-        return byDateAndMovie(state.seances);
-    },
     seanceDates: (state) => {
         const seanceDates = pipe(
             map(seance => seance.start),
-            uniq()
+            sortBy(startDate => startDate.getTime()),
+        uniqBy(startDate => extractDate(startDate)),
         );
         return seanceDates(state.seances);
     },
     moviesForDate: state => date => {
         const moviesForDate = pipe(
-            filter(seance => seance.start === date),
+            filter(seance => isEqualByDate(seance.start, date)),
             map(seance => seance.movie),
             uniqBy(movie => movie.id)
         );
         return moviesForDate(state.seances);
     },
-    seancesForMovieAndDate: state => (date, movieId) => {
+    seancesForMovieAndDay: state => (date, movieId) => {
         const seancesForMovieAndDate = pipe(
-            filter(seance => seance.start === date),
+            filter(seance => isEqualByDate(seance.start, date)),
             filter(seance => seance.movie.id === movieId)
         );
         return seancesForMovieAndDate(state.seances);
@@ -52,6 +48,9 @@ const mutations = {
         Vue.set(state, 'seances', seances.content);
     },
 };
+
+const extractDate = (dateTime) => dateTime.toLocaleDateString();
+const isEqualByDate = (date1, date2) => extractDate(date1) === extractDate(date2);
 
 export default {
   state,

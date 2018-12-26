@@ -1,66 +1,58 @@
 <template>
-    <div>
-        <button v-on:click="fetchSeances">przycisk</button>
-        <button v-on:click="showSeances">wyswietl</button>
-        <template v-if="!loading && seances">
-            Selected day: {{selectedDay}}
-            <button v-for="day in seanceDates" v-on:click="selectDay(day)">{{formatDate(day, 'DD MMM')}}</button>
+    <v-container grid-list-md fluid>
+        <v-layout v-if="!loading" justify-end>
+            <v-flex>
+                <v-btn-toggle v-model="selectedDayIndex" mandatory v-on:change="print">
+                    <v-btn flat depressed v-for="day in seanceDates" v-on:click="selectDay(day)">
+                        {{formatDate(day, 'DD MMM')}}
+                    </v-btn>
+                </v-btn-toggle>
+            </v-flex>
+            <v-flex>
+                <the-seances-table :tableData="tableData"></the-seances-table>
+            </v-flex>
+        </v-layout>
 
-            <v-data-table
-                    :headers="tableHeaders"
-                    :items="tableData"
-                    class="elevation-1">
-                <template slot="items" slot-scope="props">
-                    <td>{{ props.item.movie.title }}</td>
-                    <td class="text-xs-right">
-                        <p v-for="seance in props.item.seances">
-                            {{formatDate(seance.start, 'HH:mm')}}
-                        </p>
-                    </td>
-                </template>
-            </v-data-table>
-            <article v-for="seance in seances"
-                 :key="seance.id">
-            {{seance.movie.title}}
-            ahlo
-        </article>
-            halo
-        </template>
-        <template v-else>Loading gif</template>
-
-    </div>
+        <v-layout v-else>
+            <the-loading-indicator></the-loading-indicator>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
-    // @ is an alias to /src
     import {mapGetters} from 'vuex'
-    import consts from '../store/seances/seances.types'
     import moment from 'moment'
+    import {actions} from '@/store/seances/seances.types'
+    import TheLoadingIndicator from '@/components/TheLoadingIndicator'
+    import TheSeancesTable from '@/components/seances/TheSeancesTable'
 
     export default {
         data() {
             return {
                 loading: true,
+                selectedDayIndex: 0,
                 selectedDay: null,
                 tableHeaders: [
-                    { text: "Title", value: "title"},
-                    { text: "Seances", value: "seances"},
-                ]
+                    {text: "Title", value: "title"},
+                    {text: "Seances", value: "seances"},
+                ],
             }
         },
         name: 'seances',
         components: {
+            TheLoadingIndicator,
+            TheSeancesTable
         },
         computed: {
             ...mapGetters([
-                'seances', 'seanceDates', 'moviesForDate', 'seancesForMovieAndDate'
+                'seances', 'seanceDates', 'moviesForDate', 'seancesForMovieAndDay'
             ]),
             tableData: function () {
                 return this.moviesForDate(this.selectedDay).map(
                     movie => {
                         return {
                             movie: movie,
-                            seances: this.seancesForMovieAndDate(this.selectedDay, movie.id)
+                            seances: this.seancesForMovieAndDay(this.selectedDay, movie.id)
                         }
                     }
                 )
@@ -73,20 +65,17 @@
 
             fetchSeances: function () {
                 this.loading = true;
-                this.$store.dispatch(consts.actions.FETCH_SEANCES)
+                this.$store.dispatch(actions.FETCH_SEANCES)
                     .finally(() => {
-                        this.selectedDay = this.seanceDates[0];
+                        this.selectedDay = this.seanceDates[this.selectedDayIndex];
                         this.loading = false
                     });
             },
-            showSeances: function () {
-                console.log(this.seanceDates);
-                console.log(this.seanceDates[0]);
-                console.log(this.moviesForDate(this.seanceDates[0]));
-                console.log(this.tableData);
-            },
             selectDay: function (day) {
                 this.selectedDay = day;
+            },
+            print: function (event) {
+                console.log(print);
             }
         },
         created: function () {
