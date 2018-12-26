@@ -1,5 +1,5 @@
 {
-  "name": "cinema-frontend",
+  "name": "Cinema",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
     "moment": "^2.23.0",
     "normalizr": "^3.3.0",
     "qs": "^6.5.2",
+    "vee-validate": "^2.1.4",
     "ramda": "^0.26.1",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
