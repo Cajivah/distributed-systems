@@ -1,28 +1,28 @@
 <template>
     <v-container grid-list-md fluid>
-        <v-layout v-if="!loading" justify-end>
+        <v-layout justify-end>
             <v-flex>
-                <v-btn-toggle v-model="selectedDayIndex" mandatory v-on:change="print">
-                    <v-btn flat depressed v-for="day in seanceDates" v-on:click="selectDay(day)">
-                        {{formatDate(day, 'DD MMM')}}
-                    </v-btn>
-                </v-btn-toggle>
+                <v-date-picker
+                        v-model="selectedDay"
+                        no-title
+                        v-on:input="fetchSeances"
+                ></v-date-picker>
             </v-flex>
-            <v-flex>
+            <v-flex v-if="!loading">
                 <the-seances-table :tableData="tableData"></the-seances-table>
             </v-flex>
-        </v-layout>
-
-        <v-layout v-else>
-            <the-loading-indicator></the-loading-indicator>
+            <v-flex v-else>
+                <TheLoadingIndicator></TheLoadingIndicator>
+            </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
     import {mapGetters} from 'vuex'
-    import moment from 'moment'
+    import {formatDate} from "@/utils/dateFormatter";
     import {actions} from '@/store/seances/seances.types'
+    import moment from 'moment'
     import TheLoadingIndicator from '@/components/TheLoadingIndicator'
     import TheSeancesTable from '@/components/seances/TheSeancesTable'
 
@@ -30,12 +30,7 @@
         data() {
             return {
                 loading: true,
-                selectedDayIndex: 0,
-                selectedDay: null,
-                tableHeaders: [
-                    {text: "Title", value: "title"},
-                    {text: "Seances", value: "seances"},
-                ],
+                selectedDay: moment().format('YYYY-MM-DD')
             }
         },
         name: 'seances',
@@ -45,41 +40,24 @@
         },
         computed: {
             ...mapGetters([
-                'seances', 'seanceDates', 'moviesForDate', 'seancesForMovieAndDay'
+                'seances'
             ]),
             tableData: function () {
-                return this.moviesForDate(this.selectedDay).map(
-                    movie => {
-                        return {
-                            movie: movie,
-                            seances: this.seancesForMovieAndDay(this.selectedDay, movie.id)
-                        }
-                    }
-                )
-            },
+                return this.seances
+            }
         },
         methods: {
-            formatDate: function (date, formatters) {
-                return moment(date).format(formatters);
-            },
-
-            fetchSeances: function () {
+            formatDate: formatDate,
+            fetchSeances: function (day) {
                 this.loading = true;
-                this.$store.dispatch(actions.FETCH_SEANCES)
+                this.$store.dispatch(actions.FETCH_SEANCES, day)
                     .finally(() => {
-                        this.selectedDay = this.seanceDates[this.selectedDayIndex];
-                        this.loading = false
+                        this.loading = false;
                     });
-            },
-            selectDay: function (day) {
-                this.selectedDay = day;
-            },
-            print: function (event) {
-                console.log(print);
             }
         },
         created: function () {
-            this.fetchSeances();
+            this.fetchSeances(this.selectedDay);
         }
     };
 </script>

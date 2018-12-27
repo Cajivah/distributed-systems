@@ -5,8 +5,8 @@
             class="elevation-1">
         <template slot="items" slot-scope="{ item }">
             <td>
-                <router-link :to="{ name: movieDetailsRoute, params: {movieId: item.movie.id}}">
-                    {{ item.movie.title }} ({{ item.movie.lengthMinutes }} min.)
+                <router-link :to="{ name: movieDetailsRoute, params: {movieId: item.movieId}}">
+                    {{ item.movieTitle }}
                 </router-link>
 
             </td>
@@ -22,8 +22,8 @@
 </template>
 
 <script>
-    import routes from '@/routes'
-    import moment from 'moment'
+    import {MOVIE_DETAILS, SEANCE_BOOKING} from '@/routes'
+    import {formatDate} from "@/utils/dateFormatter";
 
     export default {
         name: 'the-seances-table',
@@ -39,14 +39,12 @@
                     {text: "Title", value: "title"},
                     {text: "Seances", value: "seances"},
                 ],
-                movieDetailsRoute: routes.MOVIE_DETAILS,
-                bookingRoute: routes.SEANCE_BOOKING
+                movieDetailsRoute: MOVIE_DETAILS,
+                bookingRoute: SEANCE_BOOKING
             }
         },
         methods: {
-            formatDate: function (date, formatters) {
-                return moment(date).format(formatters);
-            }
+            formatDate: formatDate
         }
     };
 </script>

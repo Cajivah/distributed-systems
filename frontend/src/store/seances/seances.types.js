@@ -2,11 +2,11 @@ const FETCH_SEANCES = "fetchSeances";
 const FETCH_SEANCES_COMPLETED = "fetchSeancesCompleted";
 const FETCH_SEANCES_ERROR = "fetchSeancesError";
 
-const actions = {
+export const actions = {
         FETCH_SEANCES
     };
 
-const mutations = {
+export const mutations = {
         FETCH_SEANCES_COMPLETED,
         FETCH_SEANCES_ERROR
     };
