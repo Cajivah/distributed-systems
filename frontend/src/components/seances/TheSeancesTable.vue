@@ -3,6 +3,8 @@
             :loading="loading"
             :headers="tableHeaders"
             :items="tableData"
+            :rows-per-page-items="rowsPerPage"
+            hide-actions
             :no-data-text="'No seances found.'"
             class="elevation-1">
         <template slot="items" slot-scope="{ item }">
@@ -46,7 +48,8 @@
                     {text: "Seances", value: "seances"},
                 ],
                 movieDetailsRoute: MOVIE_DETAILS,
-                bookingRoute: SEANCE_BOOKING
+                bookingRoute: SEANCE_BOOKING,
+                rowsPerPage: [-1]
             }
         },
         methods: {
