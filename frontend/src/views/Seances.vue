@@ -9,7 +9,7 @@
                 ></v-date-picker>
             </v-flex>
             <v-flex>
-                <the-seances-table :tableData="tableData" :loading="loading"></the-seances-table>
+                <the-seances-table :tableData="seances" :loading="loading"></the-seances-table>
             </v-flex>
         </v-layout>
     </v-container>
@@ -26,7 +26,7 @@
     export default {
         data() {
             return {
-                loading: true,
+                loading: false,
                 selectedDay: moment().format('YYYY-MM-DD')
             }
         },
@@ -39,12 +39,8 @@
             ...mapGetters([
                 'seances'
             ]),
-            tableData: function () {
-                return this.seances
-            }
         },
         methods: {
-            formatDate: formatDate,
             fetchSeances: function (day) {
                 this.loading = true;
                 this.$store.dispatch(actions.FETCH_SEANCES, day)

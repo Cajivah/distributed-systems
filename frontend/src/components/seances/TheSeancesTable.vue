@@ -3,6 +3,7 @@
             :loading="loading"
             :headers="tableHeaders"
             :items="tableData"
+            :no-data-text="'No seances found.'"
             class="elevation-1">
         <template slot="items" slot-scope="{ item }">
             <td>
