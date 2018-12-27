@@ -3,7 +3,7 @@ import types from './seances.types';
 import {fetchSeances} from "./seances.api";
 
 const state = {
-    seances: null,
+    seances: [],
 };
 
 const getters = {

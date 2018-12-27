@@ -1,5 +1,6 @@
 <template>
     <v-data-table
+            :loading="loading"
             :headers="tableHeaders"
             :items="tableData"
             class="elevation-1">
@@ -30,6 +31,10 @@
         props: {
             tableData: {
                 type: Array,
+                required: true
+            },
+            loading: {
+                type: Boolean,
                 required: true
             }
         },

@@ -8,11 +8,8 @@
                         v-on:input="fetchSeances"
                 ></v-date-picker>
             </v-flex>
-            <v-flex v-if="!loading">
-                <the-seances-table :tableData="tableData"></the-seances-table>
-            </v-flex>
-            <v-flex v-else>
-                <TheLoadingIndicator></TheLoadingIndicator>
+            <v-flex>
+                <the-seances-table :tableData="tableData" :loading="loading"></the-seances-table>
             </v-flex>
         </v-layout>
     </v-container>
