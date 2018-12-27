@@ -25,7 +25,7 @@ export default new Router({
             component: Registration,
         },
         {
-            path: '/seancee',
+            path: '/seances',
             name: SEANCES,
             component: () => import('./views/Seances')
         },
