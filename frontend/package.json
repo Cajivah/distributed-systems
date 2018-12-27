@@ -1,5 +1,5 @@
 {
-  "name": "cinema-frontend",
+  "name": "Cinema",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "qs": "^6.5.2",
+    "vee-validate": "^2.1.4",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",
