@@ -13,6 +13,8 @@ import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.model.entity.Seat;
 import com.cinema.api.cinema.repository.SeanceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,8 +39,8 @@ public class SeanceService {
           return seanceRepository.save(seance);
      }
 
-     public List<Seance> getAll() {
-          return seanceRepository.findAll();
+     public Page<Seance> getAll(Pageable pageable) {
+          return seanceRepository.findAll(pageable);
      }
 
      public Seance getOne(Long id) {
