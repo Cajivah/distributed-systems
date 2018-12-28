@@ -1,4 +1,4 @@
-const FETCH_SEANCES = "fetchSeances";
+const FETCH_SEANCES = "fetchSeanceDetails";
 const FETCH_SEANCES_COMPLETED = "fetchSeancesCompleted";
 const FETCH_SEANCES_ERROR = "fetchSeancesError";
 

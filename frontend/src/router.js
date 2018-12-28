@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
-import {MOVIE_DETAILS, SEANCE_BOOKING, SEANCES} from './routes';
+import {MOVIE_DETAILS, SEANCE_DETAILS, SEANCES} from './routes';
 
 Vue.use(Router);
 
@@ -36,8 +36,8 @@ export default new Router({
         },
         {
             path: '/seances/:seanceId',
-            name: SEANCE_BOOKING,
-            component: () => import('./views/SeanceBooking')
+            name: SEANCE_DETAILS,
+            component: () => import('./views/SeanceDetails')
         }
     ],
 });

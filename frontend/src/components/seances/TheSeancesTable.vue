@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import {MOVIE_DETAILS, SEANCE_BOOKING} from '@/routes'
+    import {MOVIE_DETAILS, SEANCE_DETAILS} from '@/routes'
     import {formatDate} from "@/utils/dateFormatter";
 
     export default {
@@ -48,7 +48,7 @@
                     {text: "Seances", value: "seances"},
                 ],
                 movieDetailsRoute: MOVIE_DETAILS,
-                bookingRoute: SEANCE_BOOKING,
+                bookingRoute: SEANCE_DETAILS,
                 rowsPerPage: [-1]
             }
         },
