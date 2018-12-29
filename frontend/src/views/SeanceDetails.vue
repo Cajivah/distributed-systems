@@ -14,6 +14,10 @@
                 <div slot="header">Reservation</div>
                 <TheSeatSelection>
                         <template slot="seats" v-for="row in rows">
+                            <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
+                            since v-model = :value @input, and yet component reacts
+                            to separate :value -->
+
                             <v-checkbox v-for="seat in row.seats"
                                         v-model="seats"
                                         :disabled="seat.occupied"
@@ -25,64 +29,36 @@
         </v-expansion-panel>
         <v-dialog v-model="reservationDialog" persistent max-width="600px">
             <v-btn slot="activator" color="primary" dark>Make a reservation</v-btn>
-            <v-card>
-                <v-card-title>
-                    <span class="headline">Reservation Details</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="firstName" label="First name*" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field
-                                        v-model="surname"
-                                        label="Last name*"
-                                        required
-                                ></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-text-field
-                                        v-model="email"
-                                        label="Email*"
-                                        required>
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                    <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click="summary()">Summary</v-btn>
-                    <v-btn color="blue darken-1" flat @click="closeReservationDialog()">Cancel</v-btn>
-                </v-card-actions>
-            </v-card>
+            <TheBookingDialog>
+                <v-text-field slot="firstNameField"
+                              v-model="firstName"
+                              label="First name*"
+                              required></v-text-field>
+                <v-text-field slot="surnameField"
+                              v-model="surname"
+                              label="Last name*"
+                              required></v-text-field>
+                <v-text-field slot="emailField"
+                              v-model="email"
+                              label="Email*"
+                              required></v-text-field>
+                <template slot="actions">
+                    <v-btn color="blue darken-1" flat @click="summary()">
+                        Summary</v-btn>
+                    <v-btn color="blue darken-1" flat @click="closeReservationDialog()">
+                        Cancel</v-btn>
+                </template>
+            </TheBookingDialog>
         </v-dialog>
         Selected: {{seats}}
         <v-dialog v-if="summaryDialog" v-model="summaryDialog"
                   width="600">
-            <v-card>
-                <v-card-title class="headline grey lighten-2" primary-title>
-                    Reservation summary
-                </v-card-title>
-
-                <v-card-text>
-                    Movie: {{movie.title}}
-                    Date: {{formatDate(movie.start, "LL")}}
-                    Seats: {{seats}}
-                    Owner: {{`${firstName} ${surname} (${email})`}}
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
+            <TheBookingSummary :movie="movie" :seats="seats" :reservationDetails="reservationDetails">
+                <template slot="actions">
                     <v-btn color="primary" flat @click="cancelReservation()">Cancel</v-btn>
                     <v-btn color="primary" flat @click="makeReservation()">Make reservation</v-btn>
-                </v-card-actions>
-            </v-card>
+                </template>
+            </TheBookingSummary>
         </v-dialog>
     </v-container>
 </template>
@@ -97,6 +73,7 @@ import TheBookingDialog from '@/components/seanceDetails/TheBookingDialog';
 import TheMovieDetails from '@/components/seanceDetails/TheMovieDetails';
 import TheSeanceDetails from '@/components/seanceDetails/TheSeanceDetails';
 import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection';
+import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary';
 import { SEANCE_DETAILS_STORE } from '../store/store';
 
 const { mapActions, mapGetters } = createNamespacedHelpers(SEANCE_DETAILS_STORE);
@@ -117,6 +94,7 @@ export default {
     TheMovieDetails,
     TheSeanceDetails,
     TheSeatSelection,
+    TheBookingSummary,
   },
   computed: {
     ...mapGetters([
