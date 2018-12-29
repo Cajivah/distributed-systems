@@ -13,12 +13,12 @@ const getters = {
 const actions = {
     [types.actions.FETCH_SEANCES]({commit}, date) {
         return fetchSeances(date)
-            .then(seances => commit(types.mutations.FETCH_SEANCES_COMPLETED, seances))
+            .then(seances => commit(types.mutations.SET_SEANCES, seances))
     },
 };
 
 const mutations = {
-    [types.mutations.FETCH_SEANCES_COMPLETED]({commit}, seances) {
+    [types.mutations.SET_SEANCES]({commit}, seances) {
         Vue.set(state, 'seances', seances.programme);
     },
 };
