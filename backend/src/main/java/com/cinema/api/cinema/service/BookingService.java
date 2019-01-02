@@ -11,6 +11,7 @@ import com.cinema.api.cinema.model.entity.SeatsRow;
 import com.cinema.api.cinema.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -67,5 +68,10 @@ public class BookingService {
 
      public List<Booking> getAll() {
           return bookingRepository.findAll();
+     }
+
+     @Transactional
+     public void delete(String identifier) {
+          bookingRepository.deleteByBookingIdentifier(identifier);
      }
 }
