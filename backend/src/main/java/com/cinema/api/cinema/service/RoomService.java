@@ -14,10 +14,19 @@ public class RoomService {
      private final RoomRepository roomRepository;
 
      public Room save(Room room) {
+          room.setId(null);
+          return roomRepository.save(room);
+     }
+
+     public Room update(Room room) {
           return roomRepository.save(room);
      }
 
      public Page<Room> getAll(Pageable pageable) {
           return roomRepository.findAll(pageable);
+     }
+
+     public Room getOne(long roomId) {
+          return roomRepository.getOne(roomId);
      }
 }

@@ -14,10 +14,19 @@ public class MovieService {
      private final MovieRepository movieRepository;
 
      public Movie save(Movie movie) {
+          movie.setId(null);
+          return movieRepository.save(movie);
+     }
+
+     public Movie update(Movie movie) {
           return movieRepository.save(movie);
      }
 
      public Page<Movie> getAll(Pageable pageable) {
           return movieRepository.findAll(pageable);
+     }
+
+     public Movie getOne(long movieId) {
+          return movieRepository.getOne(movieId);
      }
 }

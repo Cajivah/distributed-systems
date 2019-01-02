@@ -32,8 +32,8 @@ public class Seat {
      @Enumerated(EnumType.STRING)
      private SeatCategory seatCategory;
 
+     @JsonIgnore
      @ManyToOne
      @JoinColumn(name = "SEATS_ROW_ID")
-     @JsonIgnore
      private SeatsRow row;
 }
