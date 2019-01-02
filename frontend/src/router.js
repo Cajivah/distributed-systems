@@ -4,8 +4,10 @@ import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
 import {MOVIE_DETAILS, SEANCE_DETAILS, SEANCES} from './routes';
+import VeeValidate from "vee-validate";
 
 Vue.use(Router);
+Vue.use(VeeValidate);
 
 export default new Router({
     routes: [

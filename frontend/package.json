@@ -12,7 +12,7 @@
     "moment": "^2.23.0",
     "qs": "^6.5.2",
     "ramda": "^0.26.1",
-    "vee-validate": "^2.1.4",
+    "vee-validate": "^2.1.5",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",

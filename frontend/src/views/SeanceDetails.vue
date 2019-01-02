@@ -29,21 +29,30 @@
         </v-expansion-panel>
         <v-dialog v-model="reservationDialog" persistent max-width="600px">
             <v-btn slot="activator" color="primary" dark>Make a reservation</v-btn>
-            <TheBookingDialog>
+            <TheBookingDialog :seatCount="seats.length">
                 <v-text-field slot="firstNameField"
                               v-model="firstName"
                               label="First name*"
-                              required></v-text-field>
+                              :error-messages="errors.collect('firstname')"
+                              v-validate="'required'"
+                              data-vv-name="firstname"></v-text-field>
                 <v-text-field slot="surnameField"
                               v-model="surname"
+                              :error="errors.has('surname')"
+                              :error-messages="errors.collect('surname')"
+                              v-validate="'required'"
+                              data-vv-name="surname"
                               label="Last name*"
                               required></v-text-field>
                 <v-text-field slot="emailField"
+                              :error="errors.has('email')"
+                              :error-messages="errors.collect('email')"
+                              data-vv-name="email"
                               v-model="email"
                               label="Email*"
-                              required></v-text-field>
+                              v-validate="'required|email'"></v-text-field>
                 <template slot="actions">
-                    <v-btn color="blue darken-1" flat @click="summary()">
+                    <v-btn color="blue darken-1" flat @click="summary()" :disabled="errors.any() || seats.length === 0 || !isFormDirty">
                         Summary</v-btn>
                     <v-btn color="blue darken-1" flat @click="closeReservationDialog()">
                         Cancel</v-btn>
@@ -100,6 +109,9 @@ export default {
     ...mapGetters([
       'movie', 'seance', 'rows', 'reservationDetails',
     ]),
+      isFormDirty() {
+          return keys(this.fields).every(key => this.fields[key].dirty);
+      },
     seats: {
       get() {
         return this.reservationDetails.selectedSeats;

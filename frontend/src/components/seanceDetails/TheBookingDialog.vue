@@ -4,6 +4,11 @@
             <span class="headline">Reservation Details</span>
         </v-card-title>
         <v-card-text>
+            <v-alert
+                    :value="seatCount===0"
+                    type="error">
+                No seats are selected
+            </v-alert>
             <v-container grid-list-md>
                 <v-layout wrap>
                     <v-flex xs12 sm6 md4>
@@ -30,5 +35,6 @@
 <script>
 export default {
   name: 'the-booking-dialog',
+    props: ['seatCount']
 };
 </script>
