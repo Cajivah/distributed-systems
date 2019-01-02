@@ -62,7 +62,11 @@
         Selected: {{seats}}
         <v-dialog v-if="summaryDialog" v-model="summaryDialog"
                   width="600">
-            <TheBookingSummary :movie="movie" :seats="seats" :reservationDetails="reservationDetails">
+            <TheBookingSummary :movie="movie"
+                               :seats="seats"
+                               :reservationDetails="reservationDetails"
+                                :inProgress="reservationInProgress"
+            :reservationError="reservationError">
                 <template slot="actions">
                     <v-btn color="primary" flat @click="cancelReservation()">Cancel</v-btn>
                     <v-btn color="primary" flat @click="makeReservation()">Make reservation</v-btn>
@@ -107,7 +111,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'movie', 'seance', 'rows', 'reservationDetails',
+      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError'
     ]),
       isFormDirty() {
           return keys(this.fields).every(key => this.fields[key].dirty);
@@ -157,7 +161,8 @@ export default {
       this.summaryDialog = true;
     },
     makeReservation() {
-      this.closeSummaryDialog();
+        this.sendReservationRequest()
+            .then(value => this.closeSummaryDialog());
     },
     cancelReservation() {
       this.closeSummaryDialog();
@@ -175,6 +180,7 @@ export default {
       setSurname: actions.TYPE_SURNAME,
       setEmail: actions.TYPE_EMAIL,
       fetchDetails: actions.FETCH_DETAILS,
+        sendReservationRequest: actions.MAKE_RESERVATION
     }),
   },
   created() {

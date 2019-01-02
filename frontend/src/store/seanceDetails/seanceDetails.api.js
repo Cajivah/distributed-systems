@@ -7,3 +7,11 @@ export const fetchSeanceDetails = (id) => {
         }, 1500)
     });
 };
+export const makeReservation = ({name, surname, email, selectedSeats}) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(function () {
+            reject( 'oh shit');
+        }, 1500)
+    });
+};
+

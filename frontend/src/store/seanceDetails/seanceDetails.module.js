@@ -1,28 +1,29 @@
 import Vue from 'vue';
 import types from './seanceDetails.types';
-import {fetchSeanceDetails} from "./seanceDetails.api";
+import {fetchSeanceDetails, makeReservation} from "./seanceDetails.api";
 
 
 const state = {
     seance: null,
     movie: null,
     rows: null,
-    dialogIsOpen: false,
     reservationDetails: {
         name: null,
         surname: null,
         email: null,
         selectedSeats: []
-    }
-
+    },
+    reservationInProgress: false,
+    reservationError: null
 };
 
 const getters = {
     movie: state => state.movie,
     seance: state => state.seance,
     rows: state => state.rows,
-    reservationDialog: state => state.dialogIsOpen,
-    reservationDetails: state => state.reservationDetails
+    reservationDetails: state => state.reservationDetails,
+    reservationInProgress: state => state.reservationInProgress,
+    reservationError: state => state.reservationError
 };
 
 const actions = {
@@ -38,6 +39,16 @@ const actions = {
     },
     [types.actions.SELECT_SEATS]({commit}, seats) {
         commit(types.mutations.SET_SELECTED_SEATS, seats)
+    },
+    [types.actions.MAKE_RESERVATION]({commit}) {
+        commit(types.mutations.SET_RESERVATION_PROGRESS, true);
+        commit(types.mutations.SET_RESERVATION_ERROR, null);
+        return makeReservation({...state.reservationDetails})
+            .catch(reason => {
+                commit(types.mutations.SET_RESERVATION_ERROR, reason);
+                throw reason;
+            })
+            .finally(() => commit(types.mutations.SET_RESERVATION_PROGRESS, false))
     },
     [types.actions.TYPE_EMAIL]({commit}, email) {
         commit(types.mutations.SET_CLIENT_DETAIL, {
@@ -73,6 +84,12 @@ const mutations = {
     },
     [types.mutations.SET_CLIENT_DETAIL]({commit}, {type, value}) {
         Vue.set(state.reservationDetails, type, value);
+    },
+    [types.mutations.SET_RESERVATION_PROGRESS]({commit}, value) {
+        Vue.set(state, 'reservationInProgress', value);
+    },
+    [types.mutations.SET_RESERVATION_ERROR]({commit}, error) {
+        Vue.set(state, 'reservationError', error);
     },
 };
 
