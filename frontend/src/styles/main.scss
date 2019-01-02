@@ -1,0 +1,24 @@
+.text {
+  &--color {
+    &-white {
+      color: #fff;
+    }
+  }
+
+  &--size {
+    &-lg {
+      font-size: 14px;
+
+    }
+  }
+
+  &--weight {
+    &-md {
+      font-weight: 500;
+    }
+  }
+
+  &--no-decoration {
+    text-decoration: none!important;
+  }
+}

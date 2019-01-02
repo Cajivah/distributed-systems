@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Data
@@ -33,5 +34,6 @@ public class Seat {
 
      @JsonIgnore
      @ManyToOne
+     @JoinColumn(name = "SEATS_ROW_ID")
      private SeatsRow row;
 }

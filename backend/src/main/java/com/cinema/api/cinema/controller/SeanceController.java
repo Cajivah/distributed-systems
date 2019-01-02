@@ -5,6 +5,8 @@ import com.cinema.api.cinema.model.dto.UpdateSeanceDTO;
 import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.service.SeanceService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/seances")
@@ -29,8 +29,8 @@ public class SeanceController {
      }
 
      @GetMapping
-     public List<Seance> getAll() {
-          return seanceService.getAll();
+     public Page<Seance> getAll(Pageable pageable) {
+          return seanceService.getAll(pageable);
      }
 
      @GetMapping("/{id}")
