@@ -1,6 +1,7 @@
 package com.cinema.api.cinema.controller;
 
 import com.cinema.api.cinema.model.dto.CreateBookingDTO;
+import com.cinema.api.cinema.model.dto.SellSeatDTO;
 import com.cinema.api.cinema.model.entity.Booking;
 import com.cinema.api.cinema.model.event.OnBookingCreatedEvent;
 import com.cinema.api.cinema.service.BookingService;
@@ -26,26 +27,31 @@ import java.util.Locale;
 @AllArgsConstructor
 public class BookingController {
 
-    private final BookingService bookingService;
-    private final ApplicationEventPublisher eventPublisher;
+     private final BookingService bookingService;
+     private final ApplicationEventPublisher eventPublisher;
 
-    @PostMapping
-    public Booking save(@RequestBody @Validated CreateBookingDTO createBookingDTO,
-                        HttpServletRequest request) {
-         Booking booking = bookingService.save(createBookingDTO);
-         Locale locale = request.getLocale();
-         eventPublisher.publishEvent(new OnBookingCreatedEvent(this, booking, locale));
-         return booking;
-    }
+     @PostMapping("/book")
+     public Booking book(@RequestBody @Validated CreateBookingDTO createBookingDTO,
+                         HttpServletRequest request) {
+          Booking booking = bookingService.save(createBookingDTO);
+          Locale locale = request.getLocale();
+          eventPublisher.publishEvent(new OnBookingCreatedEvent(this, booking, locale));
+          return booking;
+     }
 
-    @GetMapping
-    public List<Booking> getAll() {
-        return bookingService.getAll();
-    }
+     @PostMapping("/sell")
+     public Booking sell(@RequestBody @Validated SellSeatDTO sellSeatDTO) {
+          return bookingService.save(sellSeatDTO);
+     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestParam String identifier) {
-         bookingService.delete(identifier);
-    }
+     @GetMapping
+     public List<Booking> getAll() {
+          return bookingService.getAll();
+     }
+
+     @DeleteMapping
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     public void delete(@RequestParam String identifier) {
+          bookingService.delete(identifier);
+     }
 }
