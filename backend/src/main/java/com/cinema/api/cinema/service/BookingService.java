@@ -36,19 +36,19 @@ public class BookingService {
      private final BookingOwnerRepository bookingOwnerRepository;
      private final MailExtendedProperties mailExtendedProperties;
 
-     public Booking save(CreateBookingDTO createBookingDTO) {
+     public Booking save(CreateBookingDTO createBookingDTO, Long seanceId) {
           BookingOwner owner = createBookingDTO.getOwner();
-          return createAndSaveBooking(createBookingDTO, owner, SeatStatus.RESERVED);
+          return createAndSaveBooking(createBookingDTO, owner, SeatStatus.RESERVED, seanceId);
      }
 
-     public Booking save(SellSeatDTO sellSeatDTO) {
+     public Booking save(SellSeatDTO sellSeatDTO, Long seanceId) {
           BookingOwner owner = bookingOwnerRepository.getByEmail(mailExtendedProperties.getNoReplyAddress());
-          return createAndSaveBooking(sellSeatDTO, owner, SeatStatus.SOLD);
-
+          return createAndSaveBooking(sellSeatDTO, owner, SeatStatus.SOLD, seanceId);
      }
 
-     private Booking createAndSaveBooking(SellSeatDTO sellSeatDTO, BookingOwner owner, SeatStatus seatStatus) {
-          final Seance seance = seanceService.getOne(sellSeatDTO.getSeanceId());
+     private Booking createAndSaveBooking(SellSeatDTO sellSeatDTO, BookingOwner owner,
+                                          SeatStatus seatStatus, Long seanceId) {
+          final Seance seance = seanceService.getOne(seanceId);
           final Set<BookingSeat> bookingSeats = createBookingSeats(seance, sellSeatDTO, seatStatus);
           final Booking booking = Booking.builder()
                                          .bookingIdentifier(UUID.randomUUID().toString())

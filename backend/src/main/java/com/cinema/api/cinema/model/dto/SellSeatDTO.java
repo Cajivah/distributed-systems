@@ -13,8 +13,5 @@ import java.util.Set;
 public class SellSeatDTO {
 
      @NotNull
-     private Long seanceId;
-
-     @NotNull
      private Set<Long> seatIds;
 }
