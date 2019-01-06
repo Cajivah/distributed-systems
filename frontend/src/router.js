@@ -3,8 +3,8 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
-import Verification from './views/Cancellation.vue';
-import Cancellation from './views/Cancellation';
+import Cancellation from './views/Cancellation.vue';
+import { CANCELLATION, MOVIE_DETAILS, SEANCE_BOOKING, SEANCES } from './routes';
 
 Vue.use(Router);
 
@@ -16,11 +16,6 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/cancellation',
-      name: 'cancellation',
-      component: Cancellation,
-    },
-    {
       path: '/login',
       name: 'login',
       component: Login,
@@ -29,6 +24,26 @@ export default new Router({
       path: '/registration',
       name: 'registration',
       component: Registration,
+    },
+    {
+      path: '/seances',
+      name: SEANCES,
+      component: () => import('./views/Seances'),
+    },
+    {
+      path: '/movie/:movieId',
+      name: MOVIE_DETAILS,
+      component: () => import('./views/MovieDetails'),
+    },
+    {
+      path: '/seances/:seanceId',
+      name: SEANCE_BOOKING,
+      component: () => import('./views/SeanceBooking'),
+    },
+    {
+      path: '/cancellation',
+      name: CANCELLATION,
+      component: Cancellation,
     },
   ],
 });
