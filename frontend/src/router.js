@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
+import Verification from './views/Verification.vue';
 
 Vue.use(Router);
 
@@ -12,6 +13,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/verification',
+      name: 'verification',
+      component: Verification,
     },
     {
       path: '/login',
