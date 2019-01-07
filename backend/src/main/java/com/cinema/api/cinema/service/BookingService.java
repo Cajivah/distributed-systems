@@ -92,4 +92,8 @@ public class BookingService {
      public void delete(String identifier) {
           bookingRepository.deleteByBookingIdentifier(identifier);
      }
+
+     public Booking getByIdentifier(String identifier) {
+          return bookingRepository.getByBookingIdentifier(identifier);
+     }
 }
