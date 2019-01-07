@@ -7,7 +7,7 @@
                         <v-toolbar-title>Booking cancellation</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <template v-if="!cancelled && booking">
+                        <template v-if="!cancelled && bookingToCancel">
                             <h3>You are about to cancel your booking:</h3>
                             <booking-preview :booking="bookingToCancel"></booking-preview>
                         </template>
@@ -15,12 +15,15 @@
                             {{ cancellationResultMessage }}
                         </template>
                     </v-card-text>
-                    <v-card-actions v-if="!loading">
-                        <v-btn color="secondary" to="/home">
+                    <v-card-actions>
+                        <v-btn color="secondary"
+                               to="/home">
                             Go to seances
                         </v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn :disabled="cancelled || !booking" color="error" @click="cancelBooking">
+                        <v-btn :disabled="!bookingToCancel || finished"
+                               color="error"
+                               @click="cancelBooking">
                             Cancel booking
                         </v-btn>
                     </v-card-actions>

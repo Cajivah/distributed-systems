@@ -1,27 +1,27 @@
 <template>
-    <v-list dense>
+    <v-list dense v-if="booking">
         <v-list-tile>
             <v-list-tile-content>Movie:</v-list-tile-content>
             <v-list-tile-content class="align-end">
-                {{ booking && booking.seance.movie.title }}
+                {{ booking.seance.movie.title }}
             </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
             <v-list-tile-content>Starts at:</v-list-tile-content>
             <v-list-tile-content class="align-end">
-                {{ booking && formatDate(booking.seance.start) }}
+                {{ formatDate(booking.seance.start) }}
             </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
             <v-list-tile-content>Room:</v-list-tile-content>
             <v-list-tile-content class="align-end">
-                {{ booking && booking.seance.room.name }}
+                {{ booking.seance.room.name }}
             </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
             <v-list-tile-content>Seats:</v-list-tile-content>
             <v-list-tile-content class="align-end">
-                {{ booking && seatsConcatenated }}
+                {{ seatsConcatenated }}
             </v-list-tile-content>
         </v-list-tile>
     </v-list>
