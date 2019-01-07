@@ -50,19 +50,26 @@ export default {
   components: {
     BookingPreview,
   },
+  beforeRouteUpdate(to) {
+    this.fetchBooking(to.query.token);
+  },
   mounted() {
-    const { token } = this.$route.query;
-    this.$store.dispatch(types.actions.FETCH_BOOKING_TO_CANCEL, token);
+    this.fetchBooking(this.$route.query.token);
   },
   computed: {
     cancellationResultMessage() {
-      return this.cancelled && this.finished ? 'Your booking has been successfully cancelled' : 'Booking could not be cancelled';
+      return this.cancelled && this.finished
+        ? 'Your booking has been successfully cancelled'
+        : 'Booking can not be cancelled';
     },
     ...mapGetters([
       'bookingToCancel',
     ]),
   },
   methods: {
+    fetchBooking(token) {
+      this.$store.dispatch(types.actions.FETCH_BOOKING_TO_CANCEL, token);
+    },
     cancelBooking() {
       const { bookingIdentifier } = this.bookingToCancel;
       this.$store.dispatch(types.actions.CANCEL_BOOKING, bookingIdentifier)
