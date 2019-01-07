@@ -31,8 +31,7 @@ public class BookingController {
           return bookingService.getByIdentifier(identifier);
      }
 
-     @DeleteMapping
-     @RequestMapping("/{identifier}")
+     @DeleteMapping("/{identifier}")
      @ResponseStatus(HttpStatus.NO_CONTENT)
      public void delete(@PathVariable String identifier) {
           bookingService.delete(identifier);
