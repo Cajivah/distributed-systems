@@ -45,7 +45,7 @@ export default new Router({
     {
       path: '/seances/:seanceId',
       name: SEANCE_DETAILS,
-      component: () => import('./views/SeanceDetails'),
+      component: () => import('./views/SeanceBooking'),
     },
   ],
 });

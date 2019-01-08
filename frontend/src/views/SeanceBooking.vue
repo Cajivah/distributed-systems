@@ -102,7 +102,7 @@ export default {
       summaryDialog: false,
     };
   },
-  name: 'seance-details',
+  name: 'seance-booking',
   components: {
     TheLoadingIndicator,
     TheBookingDialog,
