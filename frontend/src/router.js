@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
+import Cancellation from './views/Cancellation.vue';
 import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES } from './routes';
 
 Vue.use(Router);
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/cancellation',
+      name: 'cancellation',
+      component: Cancellation,
     },
     {
       path: '/login',

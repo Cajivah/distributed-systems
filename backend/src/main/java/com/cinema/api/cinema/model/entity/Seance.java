@@ -1,5 +1,6 @@
 package com.cinema.api.cinema.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class Seance {
      @ManyToOne(optional = false)
      private Movie movie;
 
+     @JsonIgnore
      @OneToMany(cascade = CascadeType.ALL)
      @JoinColumn(name = "SEANCE_ID")
      private List<Booking> bookings;

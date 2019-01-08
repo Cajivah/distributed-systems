@@ -48,5 +48,6 @@ routes:
     - 'http://localhost:8080'
   changePasswordTemplate: 'http://localhost:8080/#/change-password?token=%s'
   verification_template: 'http://localhost:8080/#/activate?token=%s'
+  bookingDeletionTemplate: 'http://localhost:8080/#/cancel-booking?token=%s'
 server:
   port: 8080
