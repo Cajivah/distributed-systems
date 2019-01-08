@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    export default {
-        name: 'the-loading-indicator',
-    };
+export default {
+  name: 'the-loading-indicator',
+};
 </script>
