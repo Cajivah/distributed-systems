@@ -6,16 +6,9 @@ export const SELECT_CINEMA = 'selectCinema';
 
 export const actions = {
   [FETCH_CINEMAS]({ commit }) {
-    return new Promise((resolve, reject) =>
-      Vue.axios
-        .get('/cinema')
-        .then(({ data }) => {
-          commit(SET_CINEMAS, data);
-          resolve(data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        }));
+    return Vue.axios.get('/cinema')
+      .then(({ data }) => commit(SET_CINEMAS, data))
+      .catch(({ response }) => response.data);
   },
   [SELECT_CINEMA]({ commit }, payload) {
     const { cinema } = payload;
