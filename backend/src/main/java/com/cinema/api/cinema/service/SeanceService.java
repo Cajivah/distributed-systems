@@ -46,7 +46,7 @@ public class SeanceService {
           Movie movie = movieService.getOne(seanceDTO.getMovieId());
           Room room = roomService.getOne(seanceDTO.getRoomId());
           Seance seance = seanceRepository.getOne(seanceDTO.getId());
-          seance = seanceMapper.update(seance, seanceDTO, movie, room);
+          seanceMapper.update(seance, seanceDTO, movie, room);
           return seanceRepository.save(seance);
      }
 
