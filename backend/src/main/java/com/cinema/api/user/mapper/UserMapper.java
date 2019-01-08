@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Mapper(componentModel = "spring", uses = DateMapper.class)
+@Mapper(componentModel = "spring", uses = {DateMapper.class, RoleMapper.class})
 public abstract class UserMapper {
 
      PasswordEncoder passwordEncoder;

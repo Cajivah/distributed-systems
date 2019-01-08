@@ -1,9 +1,11 @@
-import fixture from '../../fixtures/seances'
+import fixture from '../../fixtures/seances';
 
-export const fetchSeances = (date) => {
-  return new Promise(resolve => {
-      setTimeout(function(){
-          resolve(fixture)
-      }, 1500)
-  });
+const fetchSeances = () => new Promise((resolve) => {
+  setTimeout(() => {
+    resolve(fixture);
+  }, 1500);
+});
+
+export default {
+  fetchSeances,
 };

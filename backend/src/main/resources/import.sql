@@ -116,6 +116,9 @@ values (1, 'PLN', 120, 'VIP'),
 ---------------------------------------------------------------------------------------------------------
 -- Dokonanie rezerwacji
 insert into booking_owner (id, email, first_name, last_name, phone)
+values (2, 'no-reply@cinema.com', 'Cinema', '', '123456789');
+
+insert into booking_owner (id, email, first_name, last_name, phone)
 values (1, 'adam@nowak', 'Adam', 'Nowak', '1122334455');
 
 insert into booking (id, booking_identifier, owner_id, seance_id)

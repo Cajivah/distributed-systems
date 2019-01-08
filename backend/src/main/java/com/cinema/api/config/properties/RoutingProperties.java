@@ -22,4 +22,7 @@ public class RoutingProperties {
 
      @NotBlank
      private String verificationTemplate;
+
+     @NotBlank
+     private String bookingDeletionTemplate;
 }

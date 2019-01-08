@@ -16,41 +16,40 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import {formatDate} from "@/utils/dateFormatter";
-    import {actions} from '@/store/seances/seances.types'
-    import moment from 'moment'
-    import TheLoadingIndicator from '@/components/TheLoadingIndicator'
-    import TheSeancesTable from '@/components/seances/TheSeancesTable'
+import { mapGetters } from 'vuex';
+import { actions } from '@/store/seances/seances.types';
+import { currentDate } from '@/utils/dateUtils';
+import TheLoadingIndicator from '@/components/TheLoadingIndicator.vue';
+import TheSeancesTable from '@/components/seances/TheSeancesTable.vue';
 
-    export default {
-        data() {
-            return {
-                loading: false,
-                selectedDay: moment().format('YYYY-MM-DD')
-            }
-        },
-        name: 'seances',
-        components: {
-            TheLoadingIndicator,
-            TheSeancesTable
-        },
-        computed: {
-            ...mapGetters([
-                'seances'
-            ]),
-        },
-        methods: {
-            fetchSeances: function (day) {
-                this.loading = true;
-                this.$store.dispatch(actions.FETCH_SEANCES, day)
-                    .finally(() => {
-                        this.loading = false;
-                    });
-            }
-        },
-        created: function () {
-            this.fetchSeances(this.selectedDay);
-        }
+export default {
+  data() {
+    return {
+      loading: false,
+      selectedDay: currentDate('YYYY-MM-DD'),
     };
+  },
+  name: 'seances',
+  components: {
+    TheLoadingIndicator,
+    TheSeancesTable,
+  },
+  computed: {
+    ...mapGetters([
+      'seances',
+    ]),
+  },
+  methods: {
+    fetchSeances(day) {
+      this.loading = true;
+      this.$store.dispatch(actions.FETCH_SEANCES, day)
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+  created() {
+    this.fetchSeances(this.selectedDay);
+  },
+};
 </script>

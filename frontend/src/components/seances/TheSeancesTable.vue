@@ -16,7 +16,8 @@
             </td>
             <td class="text-xs-right">
                 <template v-for="seance in item.seances">
-                    <router-link :to="{ name: bookingRoute, params: {seanceId: seance.id}}">
+                    <router-link :key="seance.id"
+                                 :to="{ name: bookingRoute, params: {seanceId: seance.id}}">
                         {{formatDate(seance.start, 'HH:mm')}}
                     </router-link>
                 </template>
@@ -26,34 +27,34 @@
 </template>
 
 <script>
-    import {MOVIE_DETAILS, SEANCE_DETAILS} from '@/routes'
-    import {formatDate} from "@/utils/dateFormatter";
+import { MOVIE_DETAILS, SEANCE_DETAILS } from '@/routes';
+import { formatDate } from '@/utils/dateUtils';
 
-    export default {
-        name: 'the-seances-table',
-        props: {
-            tableData: {
-                type: Array,
-                required: true
-            },
-            loading: {
-                type: Boolean,
-                required: true
-            }
-        },
-        data() {
-            return {
-                tableHeaders: [
-                    {text: "Title", value: "title"},
-                    {text: "Seances", value: "seances"},
-                ],
-                movieDetailsRoute: MOVIE_DETAILS,
-                bookingRoute: SEANCE_DETAILS,
-                rowsPerPage: [-1]
-            }
-        },
-        methods: {
-            formatDate: formatDate
-        }
+export default {
+  name: 'the-seances-table',
+  props: {
+    tableData: {
+      type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      tableHeaders: [
+        { text: 'Title', value: 'title' },
+        { text: 'Seances', value: 'seances' },
+      ],
+      movieDetailsRoute: MOVIE_DETAILS,
+      bookingRoute: SEANCE_DETAILS,
+      rowsPerPage: [-1],
     };
+  },
+  methods: {
+    formatDate,
+  },
+};
 </script>
