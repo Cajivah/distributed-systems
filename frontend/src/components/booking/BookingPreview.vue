@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { formatDate } from '@/utils/dateFormatter';
+import { formatDate } from '@/utils/dateUtils';
 
 export default {
   name: 'BookingPreview',
