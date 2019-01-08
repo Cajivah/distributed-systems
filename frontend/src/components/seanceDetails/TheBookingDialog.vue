@@ -35,6 +35,6 @@
 <script>
 export default {
   name: 'the-booking-dialog',
-    props: ['seatCount']
+  props: ['seatCount'],
 };
 </script>

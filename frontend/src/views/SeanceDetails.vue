@@ -17,8 +17,8 @@
                             <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
-
                             <v-checkbox v-for="seat in row.seats"
+                                        :key="seat.id"
                                         v-model="seats"
                                         :disabled="seat.occupied"
                                         :label="`${row.id}-${seat.id}`"
@@ -52,7 +52,9 @@
                               label="Email*"
                               v-validate="'required|email'"></v-text-field>
                 <template slot="actions">
-                    <v-btn color="blue darken-1" flat @click="summary()" :disabled="errors.any() || seats.length === 0 || !isFormDirty">
+                    <v-btn color="blue darken-1" flat
+                           @click="summary()"
+                           :disabled="errors.any() || seats.length === 0 || !isFormDirty">
                         Summary</v-btn>
                     <v-btn color="blue darken-1" flat @click="closeReservationDialog()">
                         Cancel</v-btn>
@@ -65,8 +67,8 @@
             <TheBookingSummary :movie="movie"
                                :seats="seats"
                                :reservationDetails="reservationDetails"
-                                :inProgress="reservationInProgress"
-            :reservationError="reservationError">
+                               :inProgress="reservationInProgress"
+                               :reservationError="reservationError">
                 <template slot="actions">
                     <v-btn color="primary" flat @click="cancelReservation()">Cancel</v-btn>
                     <v-btn color="primary" flat @click="makeReservation()">Make reservation</v-btn>
@@ -78,16 +80,16 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { formatDate } from '@/utils/dateFormatter';
+import { formatDate } from '@/utils/dateUtils';
 import { actions } from '@/store/seanceDetails/seanceDetails.types';
 import { keys } from 'ramda';
-import TheLoadingIndicator from '@/components/TheLoadingIndicator';
-import TheBookingDialog from '@/components/seanceDetails/TheBookingDialog';
-import TheMovieDetails from '@/components/seanceDetails/TheMovieDetails';
-import TheSeanceDetails from '@/components/seanceDetails/TheSeanceDetails';
-import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection';
-import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary';
-import { SEANCE_DETAILS_STORE } from '../store/store';
+import TheLoadingIndicator from '@/components/TheLoadingIndicator.vue';
+import TheBookingDialog from '@/components/seanceDetails/TheBookingDialog.vue';
+import TheMovieDetails from '@/components/seanceDetails/TheMovieDetails.vue';
+import TheSeanceDetails from '@/components/seanceDetails/TheSeanceDetails.vue';
+import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection.vue';
+import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary.vue';
+import { SEANCE_DETAILS_STORE } from '@/store/seanceDetails/seanceDetails.module';
 
 const { mapActions, mapGetters } = createNamespacedHelpers(SEANCE_DETAILS_STORE);
 
@@ -111,11 +113,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError'
+      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError',
     ]),
-      isFormDirty() {
-          return keys(this.fields).every(key => this.fields[key].dirty);
-      },
+    isFormDirty() {
+      return keys(this.fields).every(key => this.fields[key].dirty);
+    },
     seats: {
       get() {
         return this.reservationDetails.selectedSeats;
@@ -161,8 +163,8 @@ export default {
       this.summaryDialog = true;
     },
     makeReservation() {
-        this.sendReservationRequest()
-            .then(value => this.closeSummaryDialog());
+      this.sendReservationRequest()
+        .then(() => this.closeSummaryDialog());
     },
     cancelReservation() {
       this.closeSummaryDialog();
@@ -180,7 +182,7 @@ export default {
       setSurname: actions.TYPE_SURNAME,
       setEmail: actions.TYPE_EMAIL,
       fetchDetails: actions.FETCH_DETAILS,
-        sendReservationRequest: actions.MAKE_RESERVATION
+      sendReservationRequest: actions.MAKE_RESERVATION,
     }),
   },
   created() {

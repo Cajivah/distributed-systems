@@ -1,7 +1,8 @@
 import Vue from 'vue';
-import { actions as actionTypes, mutations as mutationTypes} from './seanceDetails.types';
+import { actions as actionTypes, mutations as mutationTypes } from './seanceDetails.types';
 import { fetchSeanceDetails, makeReservation } from './seanceDetails.api';
 
+export const SEANCE_DETAILS_STORE = 'seanceDetails';
 
 const state = {
   seance: null,

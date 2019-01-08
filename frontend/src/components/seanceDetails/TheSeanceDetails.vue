@@ -11,7 +11,7 @@
 
 
 <script>
-import { formatDate } from '@/utils/dateFormatter';
+import { formatDate } from '@/utils/dateUtils';
 import { keys } from 'ramda';
 
 export default {
