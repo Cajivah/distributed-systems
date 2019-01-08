@@ -21,5 +21,5 @@ public interface SeanceMapper {
      @Mapping(target = "start", source = "updateDTO.start")
      @Mapping(target = "prices", source = "updateDTO.prices")
      @Mapping(target = "bookings", ignore = true)
-     Seance update(@MappingTarget Seance seance, UpdateSeanceDTO updateDTO, Movie movie, Room room);
+     void update(@MappingTarget Seance seance, UpdateSeanceDTO updateDTO, Movie movie, Room room);
 }
