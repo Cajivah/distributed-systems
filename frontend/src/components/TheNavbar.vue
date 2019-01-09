@@ -17,9 +17,8 @@
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down toolbar">
             <template v-if="isAuthenticated" >
-                <template v-if="isAdmin">
-                    <v-btn flat to="/movies">Movies</v-btn>
-                </template>
+                <v-btn class="mx-1" flat to="/movies">Movies</v-btn>
+                <v-btn class="mx-1" flat to="/rooms">Rooms</v-btn>
                 <a class="mr-3 text-xs-center text--color-white text--size-lg text--weight-md">
                     {{ userGreeter }}
                 </a>
@@ -36,20 +35,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { LOGOUT } from '../store/auth/auth.actions';
-import { FETCH_CINEMAS, SELECT_CINEMA } from '../store/cinema/cinema.actions';
+import { SELECT_CINEMA } from '../store/cinema/cinema.actions';
 
 export default {
   name: 'navbar',
   props: ['app'],
-  created() {
-    this.$store.dispatch(FETCH_CINEMAS);
-  },
   computed: {
     userGreeter() {
       return `Hi, ${this.$store.getters.loggedUser.username}!`;
-    },
-    isAdmin() {
-      return !!this.loggedUser.roles.find(role => role.name === 'ADMIN');
     },
     ...mapGetters([
       'isAuthenticated',
