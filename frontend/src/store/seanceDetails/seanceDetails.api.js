@@ -1,15 +1,14 @@
-import fixture from '../../fixtures/seanceDetails';
+import Vue from 'vue';
 
-export const fetchSeanceDetails = id => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(fixture);
-  }, 1500);
-});
+export const fetchSeanceDetails = id => Vue.axios.get(`/seances/${id}`);
 export const makeReservation = ({
-  name, surname, email, selectedSeats,
-}) => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    reject('oh shit');
-  }, 1500);
+  seanceId, firstName, lastName, email, phone, selectedSeats,
+}) => Vue.axios.post(`/seances/${seanceId}/bookings`, {
+  owner: {
+    email,
+    firstName,
+    lastName,
+    phone,
+  },
+  seatIds: selectedSeats,
 });
-

@@ -44,7 +44,14 @@ const actions = {
   [actionTypes.MAKE_RESERVATION]({ commit }) {
     commit(mutationTypes.SET_RESERVATION_PROGRESS, true);
     commit(mutationTypes.SET_RESERVATION_ERROR, null);
-    return makeReservation({ ...state.reservationDetails })
+    return makeReservation({
+      seanceId: state.seance.id,
+      firstName: state.reservationDetails.name,
+      lastName: state.reservationDetails.surname,
+      email: state.reservationDetails.email,
+      phone: null,
+      selectedSeats: state.reservationDetails.selectedSeats,
+    })
       .catch((reason) => {
         commit(mutationTypes.SET_RESERVATION_ERROR, reason);
         throw reason;
