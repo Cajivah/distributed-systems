@@ -19,15 +19,15 @@
                         </v-text-field>
                     </v-flex>
                     <v-flex xs12>
-                        <v-text-field v-model="form.lengthInMinutes"
+                        <v-text-field v-model="form.lengthMinutes"
                                       label="Length in minutes">
                         </v-text-field>
                     </v-flex>
                     <v-flex xs12>
-                        <v-text-field v-model="form.description"
-                                      label="Description">
-
-                        </v-text-field>
+                        <v-textarea
+                                v-model="form.description"
+                                label="Description"
+                        ></v-textarea>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -49,7 +49,7 @@ export default {
       form: {
         title: '',
         director: '',
-        lengthInMinutes: 0,
+        lengthMinutes: 0,
         description: '',
       },
     };

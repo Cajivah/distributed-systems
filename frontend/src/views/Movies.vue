@@ -18,19 +18,23 @@
             </v-dialog>
         </v-toolbar>
         <v-data-table
+                dark
                 :headers="headers"
                 :items="movies.content"
                 class="elevation-1"
                 :pagination.sync="pagination"
-                :total-items="movies.total"
+                :total-items="movies.totalElements"
                 :loading="loading"
+                prev-icon="mdi-menu-left"
+                next-icon="mdi-menu-right"
+                sort-icon="mdi-menu-down"
         >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td class="text-xs-right">{{ props.item.title }}</td>
                 <td class="text-xs-right">{{ props.item.director }}</td>
-                <td class="text-xs-right">{{ props.item.lengthInMinutes }}</td>
+                <td class="text-xs-right">{{ props.item.lengthMinutes }}</td>
                 <td class="justify-center layout px-0">
                     <v-icon
                             small
@@ -54,7 +58,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import TheMoviesTable from '../components/movies/TheMoviesTable.vue';
 import TheMovieForm from '../components/movies/TheMovieForm.vue';
 import types from '../store/movie/movie.types';
 
@@ -65,7 +68,7 @@ export default {
       dialog: false,
       loading: true,
       pagination: {},
-      editedIndex: -1,
+      isEditing: -1,
       headers: [
         {
           text: 'ID',
@@ -81,7 +84,7 @@ export default {
         },
         {
           text: 'Length',
-          value: 'lengthInMinutes',
+          value: 'lengthMinutes',
         },
         {
           text: 'Actions',
@@ -91,13 +94,13 @@ export default {
       editedItem: {
         title: null,
         director: null,
-        lengthInMinutes: null,
+        lengthMinutes: null,
         description: null,
       },
       defaultItem: {
         title: null,
         director: null,
-        lengthInMinutes: null,
+        lengthMinutes: null,
         description: null,
       },
     };
@@ -137,12 +140,12 @@ export default {
       }, 300);
     },
     save(data) {
-      if (this.editedIndex === -1) {
-        this.saveMovie(data);
+      if (this.isEditing === -1) {
+        this.saveMovie(data).then(() => this.fetch());
       } else {
-        this.updateMovie(data);
+        this.updateMovie(data).then(() => this.fetch());
       }
-      this.fetch();
+      this.dialog = false;
     },
     ...mapActions({
       fetchMovies: types.actions.FETCH_MOVIES,
@@ -152,7 +155,6 @@ export default {
     }),
   },
   components: {
-    TheMoviesTable,
     TheMovieForm,
   },
   computed: {
@@ -160,7 +162,7 @@ export default {
       'movies',
     ]),
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+      return this.isEditing === -1 ? 'New Item' : 'Edit Item';
     },
   },
 };
