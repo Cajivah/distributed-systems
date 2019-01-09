@@ -1,5 +1,6 @@
 import types from './movie.types';
 import { fetchMovies, fetchMovie, createMovie, updateMovie } from './movie.api';
+import { showErrorToasts } from '../../ToastConfigurer';
 
 const state = {
   movies: {},
@@ -18,7 +19,11 @@ const actions = {
   },
   [types.actions.CREATE_MOVIE]({ commit }, data) {
     return createMovie(data)
-      .then(movie => commit(types.mutations.SET_SELECTED_MOVIE, movie));
+      .then(movie => commit(types.mutations.SET_SELECTED_MOVIE, movie))
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
   [types.actions.FETCH_MOVIE]({ commit }, id) {
     return fetchMovie(id)
@@ -31,11 +36,11 @@ const actions = {
 };
 
 const mutations = {
-  [types.mutations.SET_BOOKING_TO_CANCEL](state, booking) {
-    state.bookingToCancel = booking;
+  [types.mutations.SET_MOVIES](state, movies) {
+    state.movies = movies;
   },
-  [types.mutations.REMOVE_CANCELLED_BOOKING](state) {
-    state.bookingToCancel = null;
+  [types.mutations.SET_SELECTED_MOVIE](state, movie) {
+    state.selectedMovie = movie;
   },
 };
 

@@ -1,6 +1,7 @@
 <template>
+    <v-container>
     <div>
-        <v-toolbar flat color="white">
+        <v-toolbar flat dark>
             <v-toolbar-title>Movies</v-toolbar-title>
             <v-divider
                     class="mx-2"
@@ -10,36 +11,10 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12>
-                                    <v-text-field v-model="editedItem.title" label="Title"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-text-field v-model="editedItem.director" label="Director"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-text-field v-model="editedItem.lengthInMinutes" label="Length in minutes"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-                    </v-card-actions>
-                </v-card>
+                <the-movie-form :close="close"
+                                :save="save"
+                                :formTitle="formTitle"
+                                :edit="editedItem" />
             </v-dialog>
         </v-toolbar>
         <v-data-table
@@ -47,8 +22,10 @@
                 :items="movies.content"
                 class="elevation-1"
                 :pagination.sync="pagination"
-                :total-items="movie.total"
+                :total-items="movies.total"
+                :loading="loading"
         >
+            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td class="text-xs-right">{{ props.item.title }}</td>
@@ -65,19 +42,24 @@
                 </td>
             </template>
             <template slot="no-data">
-                <v-btn color="primary" @click="initialize">Reset</v-btn>
+                <v-alert :value="true" color="error" icon="warning">
+                    Sorry, nothing to display here :(
+                    <v-btn color="accent" @click="fetch">Reset</v-btn>
+                </v-alert>
             </template>
         </v-data-table>
     </div>
+    </v-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import TheMoviesTable from '../components/movies/TheMoviesTable.vue';
+import TheMovieForm from '../components/movies/TheMovieForm.vue';
 import types from '../store/movie/movie.types';
 
 export default {
-  name: 'Movies.vue',
+  name: 'Movies',
   data() {
     return {
       dialog: false,
@@ -101,8 +83,18 @@ export default {
           text: 'Length',
           value: 'lengthInMinutes',
         },
+        {
+          text: 'Actions',
+          value: 'actions',
+        },
       ],
       editedItem: {
+        title: null,
+        director: null,
+        lengthInMinutes: null,
+        description: null,
+      },
+      defaultItem: {
         title: null,
         director: null,
         lengthInMinutes: null,
@@ -113,7 +105,7 @@ export default {
   watch: {
     pagination: {
       handler() {
-        this.fetchMovies();
+        this.fetch(this.pagination);
       },
       deep: true,
     },
@@ -122,21 +114,46 @@ export default {
     },
   },
   mounted() {
-    this.fetchMovies();
+    this.fetch();
   },
   methods: {
-    fetchMovies() {
+    fetch() {
       this.loading = true;
-      this.$store.commit(types.actions.FETCH_MOVIES, this.pagination);
+      this.fetchMovies(this.pagination);
       this.loading = false;
     },
     editItem(item) {
       this.loading = true;
+      this.editedIndex = this.movies.content.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
       this.loading = false;
     },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+    save(data) {
+      if (this.editedIndex === -1) {
+        this.saveMovie(data);
+      } else {
+        this.updateMovie(data);
+      }
+      this.fetch();
+    },
+    ...mapActions({
+      fetchMovies: types.actions.FETCH_MOVIES,
+      saveMovie: types.actions.CREATE_MOVIE,
+      updateMovie: types.actions.UPDATE_MOVIE,
+      selectMovie: types.actions.FETCH_MOVIE,
+    }),
   },
   components: {
     TheMoviesTable,
+    TheMovieForm,
   },
   computed: {
     ...mapGetters([

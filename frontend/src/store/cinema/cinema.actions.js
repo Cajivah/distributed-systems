@@ -8,7 +8,7 @@ export const actions = {
   [FETCH_CINEMAS]({ commit }) {
     return Vue.axios.get('/cinema')
       .then(({ data }) => commit(SET_CINEMAS, data))
-      .catch(({ response }) => response.data);
+      .catch(({ response }) => { throw response.data; });
   },
   [SELECT_CINEMA]({ commit }, payload) {
     const { cinema } = payload;
