@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +21,8 @@ public class RoomController {
      private final RoomService roomService;
 
      @GetMapping
-     public Page<Room> getAll(Pageable pageable) {
-          return roomService.getAll(pageable);
+     public Page<Room> getAll(Pageable pageable, @RequestParam Long cinemaId) {
+          return roomService.getAll(cinemaId, pageable);
      }
 
      @PostMapping
