@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import safeGetPagination from '../apiUtils';
+import apiUtils from '../apiUtils';
 
 const routes = {
   movies: '/movies',
@@ -10,7 +10,7 @@ export const fetchMovies = params => new Promise((resolve, reject) => {
     descending, page, rowsPerPage, sortBy,
   } = params;
 
-  const pagination = safeGetPagination(page, rowsPerPage, sortBy, descending);
+  const pagination = apiUtils.safeGetPagination(page, rowsPerPage, sortBy, descending);
 
   Vue.axios.get(routes.movies, { params: { ...pagination } })
     .then(({ data }) => resolve(data), reject);

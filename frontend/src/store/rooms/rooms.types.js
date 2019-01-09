@@ -4,17 +4,12 @@ const UPDATE_ROOM = 'updateRoom';
 
 const SET_ROOMS = 'setRooms';
 
-const actions = {
+export const actionTypes = {
   FETCH_ROOMS,
   CREATE_ROOM,
   UPDATE_ROOM,
 };
 
-const mutations = {
+export const mutationTypes = {
   SET_ROOMS,
-};
-
-export default {
-  actions,
-  mutations,
 };

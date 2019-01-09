@@ -1,4 +1,4 @@
-export default (page, size, sort, descending) => {
+const safeGetPagination = (page, size, sort, descending) => {
   let pagination = {};
 
   if (page) {
@@ -14,4 +14,8 @@ export default (page, size, sort, descending) => {
   }
 
   return pagination;
+};
+
+export default {
+  safeGetPagination,
 };

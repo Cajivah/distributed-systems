@@ -1,4 +1,4 @@
-import types from './rooms.types';
+import { actionTypes, mutationTypes } from './rooms.types';
 import { fetchRooms, createRoom, updateRoom, prepareRoomPayload } from './rooms.api';
 import { showErrorToasts } from '../../ToastConfigurer';
 
@@ -11,11 +11,11 @@ const getters = {
 };
 
 const actions = {
-  [types.actions.FETCH_ROOMS]({ commit }, data) {
+  [actionTypes.FETCH_ROOMS]({ commit }, data) {
     return fetchRooms(data)
-      .then(rooms => commit(types.mutations.SET_ROOMS, rooms));
+      .then(rooms => commit(mutationTypes.SET_ROOMS, rooms));
   },
-  [types.actions.CREATE_ROOM](_, data) {
+  [actionTypes.CREATE_ROOM](_, data) {
     const payload = prepareRoomPayload(data);
     return createRoom(payload)
       .catch(({ response }) => {
@@ -23,14 +23,14 @@ const actions = {
         throw response.data;
       });
   },
-  [types.actions.UPDATE_ROOM](_, data) {
+  [actionTypes.UPDATE_ROOM](_, data) {
     const payload = prepareRoomPayload(data);
     return updateRoom(payload);
   },
 };
 
 const mutations = {
-  [types.mutations.SET_ROOMS](state, rooms) {
+  [mutationTypes.SET_ROOMS](state, rooms) {
     state.rooms = rooms;
   },
 };

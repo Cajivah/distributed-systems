@@ -59,7 +59,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import types from '../store/rooms/rooms.types';
+import { actionTypes } from '../store/rooms/rooms.types';
 import TheRoomForm from '../components/rooms/TheRoomForm.vue';
 
 export default {
@@ -104,7 +104,9 @@ export default {
       deep: true,
     },
     dialog(val) {
-      val || this.close();
+      if (!val) {
+        this.close();
+      }
     },
   },
   mounted() {
@@ -143,9 +145,9 @@ export default {
       this.dialog = false;
     },
     ...mapActions({
-      fetchRooms: types.actions.FETCH_ROOMS,
-      createRoom: types.actions.CREATE_ROOM,
-      updateRoom: types.actions.UPDATE_ROOM,
+      fetchRooms: actionTypes.FETCH_ROOMS,
+      createRoom: actionTypes.CREATE_ROOM,
+      updateRoom: actionTypes.UPDATE_ROOM,
     }),
   },
   components: {
@@ -157,7 +159,7 @@ export default {
       'activeCinema',
     ]),
     formTitle() {
-      return this.isEditing === -1 ? 'New Item' : 'Edit Item';
+      return !this.isEditing ? 'New Item' : 'Edit Item';
     },
     simplifiedEditItem() {
       return {

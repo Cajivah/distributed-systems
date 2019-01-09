@@ -59,7 +59,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import TheMovieForm from '../components/movies/TheMovieForm.vue';
-import types from '../store/movie/movie.types';
+import { actionTypes } from '../store/movie/movie.types';
 
 export default {
   name: 'Movies',
@@ -68,7 +68,7 @@ export default {
       dialog: false,
       loading: true,
       pagination: {},
-      isEditing: -1,
+      isEditing: false,
       headers: [
         {
           text: 'ID',
@@ -113,7 +113,9 @@ export default {
       deep: true,
     },
     dialog(val) {
-      val || this.close();
+      if (!val) {
+        this.close();
+      }
     },
   },
   mounted() {
@@ -127,8 +129,8 @@ export default {
     },
     editItem(item) {
       this.loading = true;
-      this.editedIndex = this.movies.content.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      this.isEditing = true;
       this.dialog = true;
       this.loading = false;
     },
@@ -136,11 +138,11 @@ export default {
       this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+        this.isEditing = false;
       }, 300);
     },
     save(data) {
-      if (this.isEditing === -1) {
+      if (!this.isEditing) {
         this.saveMovie(data).then(() => this.fetch());
       } else {
         this.updateMovie(data).then(() => this.fetch());
@@ -148,10 +150,10 @@ export default {
       this.dialog = false;
     },
     ...mapActions({
-      fetchMovies: types.actions.FETCH_MOVIES,
-      saveMovie: types.actions.CREATE_MOVIE,
-      updateMovie: types.actions.UPDATE_MOVIE,
-      selectMovie: types.actions.FETCH_MOVIE,
+      fetchMovies: actionTypes.FETCH_MOVIES,
+      saveMovie: actionTypes.CREATE_MOVIE,
+      updateMovie: actionTypes.UPDATE_MOVIE,
+      selectMovie: actionTypes.FETCH_MOVIE,
     }),
   },
   components: {
@@ -162,7 +164,7 @@ export default {
       'movies',
     ]),
     formTitle() {
-      return this.isEditing === -1 ? 'New Item' : 'Edit Item';
+      return !this.isEditing ? 'New Item' : 'Edit Item';
     },
   },
 };

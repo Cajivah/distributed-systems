@@ -6,19 +6,14 @@ const UPDATE_MOVIE = 'updateMovie';
 const SET_MOVIES = 'setMovies';
 const SET_SELECTED_MOVIE = 'setSelectedMovie';
 
-const actions = {
+export const actionTypes = {
   FETCH_MOVIES,
   CREATE_MOVIE,
   UPDATE_MOVIE,
   FETCH_MOVIE,
 };
 
-const mutations = {
+export const mutationTypes = {
   SET_MOVIES,
   SET_SELECTED_MOVIE,
-};
-
-export default {
-  actions,
-  mutations,
 };

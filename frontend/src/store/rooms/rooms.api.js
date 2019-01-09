@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import safeGetPagination from '../apiUtils';
+import apiUtils from '../apiUtils';
 
 const routes = {
   rooms: '/rooms',
@@ -10,7 +10,7 @@ export const fetchRooms = (params) => {
     descending, page, rowsPerPage, sortBy, cinema,
   } = params;
 
-  const pagination = safeGetPagination(page, rowsPerPage, sortBy, descending);
+  const pagination = apiUtils.safeGetPagination(page, rowsPerPage, sortBy, descending);
 
   return Vue.axios.get(routes.rooms, { params: { ...pagination, cinemaId: cinema } })
     .then(({ data }) => data);
