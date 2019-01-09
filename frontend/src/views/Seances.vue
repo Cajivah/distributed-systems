@@ -9,7 +9,7 @@
                 ></v-date-picker>
             </v-flex>
             <v-flex>
-                <the-seances-table :tableData="seances" :loading="loading"></the-seances-table>
+                <the-seances-table :tableData="programme" :loading="loading"></the-seances-table>
             </v-flex>
         </v-layout>
     </v-container>
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'seances',
+      'programme',
     ]),
   },
   methods: {

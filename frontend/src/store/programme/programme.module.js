@@ -7,19 +7,19 @@ const state = {
 };
 
 const getters = {
-  seances: state => state.seances,
+  programme: state => state.seances,
 };
 
 const actions = {
   [actionTypes.FETCH_PROGRAMME]({ commit, rootGetters }, date) {
-    return api.fetchSeances(rootGetters.activeCinema, date)
+    return api.fetchProgramme(rootGetters.activeCinema, date)
       .then(seances => commit(mutationTypes.SET_PROGRAMME, seances));
   },
 };
 
 const mutations = {
   [mutationTypes.SET_PROGRAMME](context, seances) {
-    Vue.set(state, 'seances', seances.programme);
+    Vue.set(state, 'seances', seances.data.programme);
   },
 };
 
