@@ -4,10 +4,18 @@ const routes = {
   movies: '/movies',
 };
 
-// export const fetchMovies = params => new Promise((resolve, reject) => {
-//   Vue.axios.get(routes.movies, { params: { ...params } })
-//     .then(({ data }) => resolve(data), reject);
-// });
+export const fetchMovies2 = params => new Promise((resolve, reject) => {
+  const {
+    descending, page, rowsPerPage, sortBy,
+  } = params;
+
+  const pagination = {
+    page, size: rowsPerPage, sort: sortBy, [`${sortBy}.dir`]: descending ? 'desc' : 'asc',
+  };
+
+  Vue.axios.get(routes.movies, { params: { ...pagination } })
+    .then(({ data }) => resolve(data), reject);
+});
 
 export const fetchMovies = params => new Promise(resolve => (resolve({
   content: [{

@@ -105,7 +105,7 @@ export default {
   watch: {
     pagination: {
       handler() {
-        this.fetch(this.pagination);
+        this.fetch();
       },
       deep: true,
     },
