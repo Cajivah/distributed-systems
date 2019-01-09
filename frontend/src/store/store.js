@@ -5,6 +5,7 @@ import cinema from './cinema/cinema.module';
 import booking from './booking/booking.module';
 import seances from './seances/seances.module';
 import movies from './movie/movie.module';
+import rooms from './rooms/rooms.module';
 
 Vue.use(Vuex);
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     booking,
     seances,
     movies,
+    rooms,
   },
 });
