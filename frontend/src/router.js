@@ -5,7 +5,7 @@ import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
 import Verification from './views/Verification.vue';
 import Cancellation from './views/Cancellation.vue';
-import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES } from './routes';
+import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES, MOVIES, ROOMS } from './routes';
 
 Vue.use(Router);
 
@@ -45,6 +45,16 @@ export default new Router({
       path: '/movie/:movieId',
       name: MOVIE_DETAILS,
       component: () => import('./views/MovieDetails'),
+    },
+    {
+      path: '/movies',
+      name: MOVIES,
+      component: () => import('./views/Movies'),
+    },
+    {
+      path: '/rooms',
+      name: ROOMS,
+      component: () => import('./views/Rooms'),
     },
     {
       path: '/seances/:seanceId',

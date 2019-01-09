@@ -22,8 +22,8 @@ public class RoomService {
           return roomRepository.save(room);
      }
 
-     public Page<Room> getAll(Pageable pageable) {
-          return roomRepository.findAll(pageable);
+     public Page<Room> getAll(Long cinemaId, Pageable pageable) {
+          return roomRepository.findAllByCinema_Id(cinemaId, pageable);
      }
 
      public Room getOne(long roomId) {
