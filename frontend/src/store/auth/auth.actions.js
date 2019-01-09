@@ -25,7 +25,7 @@ export const actions = {
       });
   },
   [FETCH_LOGGED_USER]({ commit }) {
-    return Vue.axios.get('/users/accounts/me')
+    return Vue.axios.get('/accounts/me')
       .then(({ data }) => commit(SET_AUTH, data))
       .catch(({ response }) => { throw response.data; });
   },
