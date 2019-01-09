@@ -19,7 +19,7 @@ const actions = {
 
 const mutations = {
   [mutationTypes.SET_PROGRAMME](context, seances) {
-    Vue.set(state, 'seances', seances.data.programme);
+    Vue.set(state, 'seances', seances.programme);
   },
 };
 
