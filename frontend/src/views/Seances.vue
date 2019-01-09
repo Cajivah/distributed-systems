@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { actions } from '@/store/seances/seances.types';
+import { actions } from '@/store/programme/programme.types';
 import { currentDate } from '@/utils/dateUtils';
 import TheLoadingIndicator from '@/components/TheLoadingIndicator.vue';
 import TheSeancesTable from '@/components/seances/TheSeancesTable.vue';
@@ -42,7 +42,7 @@ export default {
   methods: {
     fetchSeances(day) {
       this.loading = true;
-      this.$store.dispatch(actions.FETCH_SEANCES, day)
+      this.$store.dispatch(actions.FETCH_PROGRAMME, day)
         .finally(() => {
           this.loading = false;
         });
