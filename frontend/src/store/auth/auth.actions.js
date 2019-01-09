@@ -13,53 +13,32 @@ export const REQUEST_RESET_PASSWORD = 'requestResetPassword';
 
 export const actions = {
   [LOGIN]({ commit }, payload) {
-    return new Promise(resolve =>
-      Vue.axios
-        .post('/login', qs.stringify(payload), {
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded',
-          },
-        })
-        .then(({ data }) => {
-          commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch(error => showErrorToasts(error.response.data)));
+    return Vue.axios.post('/login', qs.stringify(payload), {
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then(({ data }) => commit(SET_AUTH, data))
+      .catch(({ response }) => showErrorToasts(response.data));
   },
   [FETCH_LOGGED_USER]({ commit }) {
-    return new Promise((resolve, reject) => {
-      Vue.axios.get('/users/accounts/me')
-        .then(({ data }) => {
-          commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        });
-    });
+    return Vue.axios.get('/users/accounts/me')
+      .then(({ data }) => commit(SET_AUTH, data))
+      .catch(({ response }) => response.data);
   },
   [REGISTER](_, payload) {
-    return new Promise((resolve) => {
-      Vue.axios.post('/accounts', payload)
-        .catch(error => showErrorToasts(error.response.data));
-      resolve();
-    });
+    return Vue.axios.post('/accounts', payload)
+      .catch(({ response }) => showErrorToasts(response.data));
   },
   [LOGOUT]({ commit }) {
-    return new Promise((resolve) => {
-      Vue.axios.post('/logout')
-        .then(() => {
-          commit(PURGE_AUTH);
-          resolve();
-        })
-        .catch(error => error);
-    });
+    return Vue.axios.post('/logout')
+      .then(() => commit(PURGE_AUTH))
+      .catch(({ response }) => response.data);
   },
   [ACTIVATE_ACCOUNT](_, token) {
-    return new Promise((resolve, reject) =>
-      Vue.axios.patch(`/verification?token=${token}`)
-        .then(resolve)
-        .catch(reject));
+    return Vue.axios.patch(`/verification?token=${token}`)
+      .then(({ data }) => data)
+      .catch(({ response }) => response.data);
   },
   [RESET_PASSWORD](_, { token, password, matchingPassword }) {
     const body = {
@@ -69,21 +48,13 @@ export const actions = {
         matchingPassword,
       },
     };
-    return new Promise((resolve, reject) => {
-      Vue.axios.patch('/users/accounts/reset-password', body)
-        .then(({ data }) => {
-          resolve(data);
-        })
-        .catch(() => reject());
-    });
+    return Vue.axios.patch('/users/accounts/reset-password', body)
+      .then(({ data }) => data)
+      .catch(({ response }) => response.data);
   },
   [REQUEST_RESET_PASSWORD](_, { email }) {
-    return new Promise((resolve, reject) => {
-      Vue.axios.post('/users/accounts/reset-password', { email })
-        .then(({ data }) => {
-          resolve(data);
-        })
-        .catch(() => reject());
-    });
+    return Vue.axios.post('/users/accounts/reset-password', { email })
+      .then(({ data }) => data)
+      .catch(({ response }) => response.data);
   },
 };

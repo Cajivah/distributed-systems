@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { MOVIE_DETAILS, SEANCE_DETAILS } from '@/routes';
+import { MOVIE_DETAILS, SEANCE_BOOKING } from '@/routes';
 import { formatDate } from '@/utils/dateUtils';
 
 export default {
@@ -49,7 +49,7 @@ export default {
         { text: 'Seances', value: 'seances' },
       ],
       movieDetailsRoute: MOVIE_DETAILS,
-      bookingRoute: SEANCE_DETAILS,
+      bookingRoute: SEANCE_BOOKING,
       rowsPerPage: [-1],
     };
   },

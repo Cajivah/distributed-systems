@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import VeeValidate from 'vee-validate';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Home from './views/Home.vue';
+import Verification from './views/Verification.vue';
 import Cancellation from './views/Cancellation.vue';
-import { MOVIE_DETAILS, SEANCE_DETAILS, SEANCES } from './routes';
+import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES } from './routes';
 
 Vue.use(Router);
-Vue.use(VeeValidate);
 
 export default new Router({
   routes: [
@@ -16,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/verification',
+      name: 'verification',
+      component: Verification,
     },
     {
       path: '/cancellation',
@@ -44,7 +48,7 @@ export default new Router({
     },
     {
       path: '/seances/:seanceId',
-      name: SEANCE_DETAILS,
+      name: SEANCE_BOOKING,
       component: () => import('./views/SeanceBooking'),
     },
   ],
