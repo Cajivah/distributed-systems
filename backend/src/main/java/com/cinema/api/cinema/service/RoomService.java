@@ -1,7 +1,7 @@
 package com.cinema.api.cinema.service;
 
 import com.cinema.api.cinema.model.entity.Room;
-import com.cinema.api.cinema.repository.RoomRepository;
+import com.cinema.api.cinema.repository.write.RoomRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

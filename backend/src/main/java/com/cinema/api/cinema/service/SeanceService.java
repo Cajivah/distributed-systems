@@ -12,7 +12,7 @@ import com.cinema.api.cinema.model.entity.Movie;
 import com.cinema.api.cinema.model.entity.Room;
 import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.model.entity.Seat;
-import com.cinema.api.cinema.repository.SeanceRepository;
+import com.cinema.api.cinema.repository.write.SeanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

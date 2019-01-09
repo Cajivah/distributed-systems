@@ -1,3 +1,11 @@
+read:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5441/example
+    url: jdbc:postgresql://localhost:5441/example
+    username: example
+    password: example
+    driver-class-name: org.postgresql.Driver
+
 spring:
   application:
     name: cinema-backend
@@ -7,9 +15,10 @@ spring:
       flush-mode: ON_SAVE
       namespace: cinema-security
   datasource:
-    url: jdbc:postgresql://localhost:5432/cinema-db
-    username: postgres
-    password: postgres
+    jdbc-url: jdbc:postgresql://localhost:5440/example
+    url: jdbc:postgresql://localhost:5440/example
+    username: example
+    password: example
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
