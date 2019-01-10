@@ -39,13 +39,15 @@
                     @click="sellingSeatsCompleted = false">Close</v-btn>
         </v-dialog>
         <v-dialog v-if="isAuthenticated" v-model="seatsSellingDialog" width="600">
+            <v-btn slot="activator" color="primary" dark>Sell seats</v-btn>
             <TheSeatsSellingDialog
                     :selectedSeats="seats"
                     :error="sellingSeatsError"
             :inProgress="sellingSeatsInProgress">
                 <template slot="actions">
                     <v-btn color="primary" flat @click="cancelSeatSelling()">Cancel</v-btn>
-                    <v-btn color="primary" flat @click="sellSeats()">Sell selected seats</v-btn>
+                    <v-btn color="primary" flat @click="sellSeats()"
+                    :disabled="seats.length === 0">Sell selected seats</v-btn>
                 </template>
             </TheSeatsSellingDialog>
         </v-dialog>

@@ -87,7 +87,8 @@ const actions = {
         commit(mutationTypes.SET_SELLING_SEATS_ERROR, reason);
         throw reason;
       })
-      .finally(() => commit(mutationTypes.SET_SELLING_SEATS_PROGRESS, false));
+      .finally(() => commit(mutationTypes.SET_SELLING_SEATS_PROGRESS, false))
+      .finally(() => commit(mutationTypes.SET_SELECTED_SEATS, []));
   },
 };
 
@@ -111,6 +112,12 @@ const mutations = {
   },
   [mutationTypes.SET_RESERVATION_ERROR](context, error) {
     Vue.set(state, 'reservationError', error);
+  },
+  [mutationTypes.SET_SELLING_SEATS_PROGRESS](context, progress) {
+    Vue.set(state, 'sellingSeatsInProgress', progress);
+  },
+  [mutationTypes.SET_SELLING_SEATS_ERROR](context, error) {
+    Vue.set(state, 'sellingSeatsError', error);
   },
 };
 

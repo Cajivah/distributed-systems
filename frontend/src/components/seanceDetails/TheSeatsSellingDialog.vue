@@ -9,10 +9,10 @@
                     :value="error"
                     type="error">
                 Seats selling error, please try again:
-                {{sellingSeatsError}}
+                {{error}}
             </v-alert>
             <v-alert
-                    :value="selectedSeats.count===0"
+                    :value="selectedSeats.length===0"
                     type="error">
                 No seats are selected
             </v-alert>
@@ -33,6 +33,9 @@ import TheLoadingIndicator from '@/components/TheLoadingIndicator.vue';
 
 export default {
   name: 'the-seats-selling-dialog',
+  components: {
+    TheLoadingIndicator,
+  },
   props: {
     selectedSeats: {
       type: Array,
