@@ -10,8 +10,9 @@ import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.model.entity.Seat;
 import com.cinema.api.cinema.model.entity.SeatStatus;
 import com.cinema.api.cinema.model.entity.SeatsRow;
-import com.cinema.api.cinema.repository.BookingOwnerRepository;
-import com.cinema.api.cinema.repository.BookingRepository;
+import com.cinema.api.cinema.repository.read.ReadBookingOwnerRepository;
+import com.cinema.api.cinema.repository.read.ReadBookingRepository;
+import com.cinema.api.cinema.repository.write.BookingRepository;
 import com.cinema.api.mail.config.properties.MailExtendedProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,17 +33,19 @@ import java.util.stream.Collectors;
 public class BookingService {
 
      private final BookingRepository bookingRepository;
+     private final ReadBookingRepository readBookingRepository;
      private final SeanceService seanceService;
-     private final BookingOwnerRepository bookingOwnerRepository;
+     private final ReadBookingOwnerRepository readBookingOwnerRepository;
      private final MailExtendedProperties mailExtendedProperties;
 
      public Booking save(CreateBookingDTO createBookingDTO, Long seanceId) {
           BookingOwner owner = createBookingDTO.getOwner();
+          owner.setId(null);
           return createAndSaveBooking(createBookingDTO, owner, SeatStatus.RESERVED, seanceId);
      }
 
      public Booking save(SellSeatDTO sellSeatDTO, Long seanceId) {
-          BookingOwner owner = bookingOwnerRepository.getByEmail(mailExtendedProperties.getNoReplyAddress());
+          BookingOwner owner = readBookingOwnerRepository.getByEmail(mailExtendedProperties.getNoReplyAddress());
           return createAndSaveBooking(sellSeatDTO, owner, SeatStatus.SOLD, seanceId);
      }
 
@@ -85,7 +88,7 @@ public class BookingService {
      }
 
      public List<Booking> getAll() {
-          return bookingRepository.findAll();
+          return readBookingRepository.findAll();
      }
 
      @Transactional
@@ -94,6 +97,6 @@ public class BookingService {
      }
 
      public Booking getByIdentifier(String identifier) {
-          return bookingRepository.getByBookingIdentifier(identifier);
+          return readBookingRepository.getByBookingIdentifier(identifier);
      }
 }

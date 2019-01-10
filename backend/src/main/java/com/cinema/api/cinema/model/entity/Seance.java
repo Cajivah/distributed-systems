@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,6 +30,7 @@ import java.util.Map;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "bookings")
 public class Seance {
 
      @Id
@@ -37,7 +40,7 @@ public class Seance {
      @Column(nullable = false)
      private ZonedDateTime start;
 
-     @ElementCollection
+     @ElementCollection(fetch = FetchType.EAGER)
      @MapKeyColumn(name = "seat_category")
      @MapKeyEnumerated(EnumType.STRING)
      private Map<SeatCategory, Price> prices;
@@ -49,7 +52,7 @@ public class Seance {
      private Movie movie;
 
      @JsonIgnore
-     @OneToMany(cascade = CascadeType.ALL)
+     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
      @JoinColumn(name = "SEANCE_ID")
      private List<Booking> bookings = new ArrayList<>();
 }

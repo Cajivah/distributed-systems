@@ -1,4 +1,4 @@
-package com.cinema.api.cinema.repository;
+package com.cinema.api.cinema.repository.read;
 
 import com.cinema.api.cinema.model.entity.Seance;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Repository
-public interface SeanceRepository extends JpaRepository<Seance, Long> {
+public interface ReadSeanceRepository extends JpaRepository<Seance, Long> {
 
      default List<Seance> findByCinemaIdAndDate(long cinemaId, LocalDate date) {
           ZonedDateTime dayStart = ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault());

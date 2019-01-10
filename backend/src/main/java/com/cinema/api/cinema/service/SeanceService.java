@@ -13,7 +13,8 @@ import com.cinema.api.cinema.model.entity.Movie;
 import com.cinema.api.cinema.model.entity.Room;
 import com.cinema.api.cinema.model.entity.Seance;
 import com.cinema.api.cinema.model.entity.Seat;
-import com.cinema.api.cinema.repository.SeanceRepository;
+import com.cinema.api.cinema.repository.read.ReadSeanceRepository;
+import com.cinema.api.cinema.repository.write.SeanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +30,14 @@ import java.util.stream.Collectors;
 public class SeanceService {
 
      private final SeanceRepository seanceRepository;
+     private final ReadSeanceRepository readSeanceRepository;
      private final SeanceMapper seanceMapper;
      private final SeatsRowMapper seatsRowMapper;
      private final RoomService roomService;
      private final MovieService movieService;
 
      public List<Seance> getByCinemaIdAndDate(long cinemaId, LocalDate date) {
-          return seanceRepository.findByCinemaIdAndDate(cinemaId, date);
+          return readSeanceRepository.findByCinemaIdAndDate(cinemaId, date);
      }
 
      public Seance save(CreateSeanceDTO seanceDTO) {
@@ -48,21 +50,21 @@ public class SeanceService {
      public Seance update(UpdateSeanceDTO seanceDTO) {
           Movie movie = movieService.getOne(seanceDTO.getMovieId());
           Room room = roomService.getOne(seanceDTO.getRoomId());
-          Seance seance = seanceRepository.getOne(seanceDTO.getId());
+          Seance seance = readSeanceRepository.getOne(seanceDTO.getId());
           seanceMapper.update(seance, seanceDTO, movie, room);
           return seanceRepository.save(seance);
      }
 
      public Page<Seance> getAll(Pageable pageable) {
-          return seanceRepository.findAll(pageable);
+          return readSeanceRepository.findAll(pageable);
      }
 
      public Seance getOne(Long id) {
-          return seanceRepository.getOne(id);
+          return readSeanceRepository.getOne(id);
      }
 
      public SeanceExtendedDTO getExtendedInfo(long id) {
-          Seance seance = seanceRepository.getOne(id);
+          Seance seance = readSeanceRepository.getOne(id);
           Room room = seance.getRoom();
           SeanceWithSeatPrizesDTO seanceDTO = seanceMapper.toSeanceWithPrizes(seance);
           List<Seat> occupiedSeats = getOccupiedSeats(seance);
@@ -80,6 +82,6 @@ public class SeanceService {
      }
 
      public Page<Seance> getAllByCinema(String cinemaId, Pageable pageable) {
-          return seanceRepository.findAllByRoom_Cinema_Id(cinemaId, pageable);
+          return readSeanceRepository.findAllByRoom_Cinema_Id(cinemaId, pageable);
      }
 }
