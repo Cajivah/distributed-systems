@@ -18,11 +18,10 @@
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
                             <v-flex grow>
-                                1
+                                {{row.id}}
                             </v-flex>
                             <v-flex grow :key="seat.id" v-for="seat in row.seats">
                                 <v-checkbox
-                                        large
                                         :off-icon="'event_seat'"
                                         :on-icon="'event_seat'"
                                             v-model="seats"
