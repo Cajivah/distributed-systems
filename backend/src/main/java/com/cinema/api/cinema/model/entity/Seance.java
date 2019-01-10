@@ -19,6 +19,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,5 +51,5 @@ public class Seance {
      @JsonIgnore
      @OneToMany(cascade = CascadeType.ALL)
      @JoinColumn(name = "SEANCE_ID")
-     private List<Booking> bookings;
+     private List<Booking> bookings = new ArrayList<>();
 }
