@@ -17,7 +17,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-btn color="secondary"
-                               to="/home">
+                               to="/">
                             Go to seances
                         </v-btn>
                         <v-spacer></v-spacer>
