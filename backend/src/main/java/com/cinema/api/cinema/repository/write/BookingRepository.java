@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     void deleteByBookingIdentifier(String identifier);
-
-    Booking getByBookingIdentifier(String identifier);
 }

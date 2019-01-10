@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class MovieService {
@@ -15,9 +17,11 @@ public class MovieService {
      private final MovieRepository movieRepository;
      private final ReadMovieRepository readMovieRepository;
 
-
      public Movie save(Movie movie) {
           movie.setId(null);
+          Optional.ofNullable(movie.getMovieImages())
+                  .ifPresent(movieImages ->
+                       movieImages.forEach(movieImage -> movieImage.setId(null)));
           return movieRepository.save(movie);
      }
 

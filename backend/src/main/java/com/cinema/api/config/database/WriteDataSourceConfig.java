@@ -45,7 +45,8 @@ public class WriteDataSourceConfig {
                Map.ofEntries(Map.entry("hibernate.hbm2ddl.auto", databaseProperties.getHibernate().getDdlAuto()),
                     Map.entry("hibernate.dialect", databaseProperties.getProperties().getHibernate().getDialect()),
                     Map.entry("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName()),
-                    Map.entry("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName()));
+                    Map.entry("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName()),
+                    Map.entry("hibernate.enable_lazy_load_no_trans", "true"));
 
           return builder
                .dataSource(dataSource)
