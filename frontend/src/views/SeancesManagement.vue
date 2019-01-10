@@ -40,7 +40,7 @@
                 </td>
                 <td class="text-xs-right">{{ props.item.movie.lengthMinutes }}</td>
                 <td class="text-xs-right">{{ props.item.room.name }}</td>
-                <td class="justify-center layout px-0">
+                <td class="justify-center align-center layout px-0">
                     <v-icon
                             small
                             class="mr-2"
@@ -109,17 +109,33 @@ export default {
       ],
       editedItem: {
         id: null,
-        start: null,
-        room: null,
-        movie: null,
-        prices: null,
+        room: {
+          id: null,
+        },
+        movie: {
+          id: null,
+        },
+        prices: {
+          REGULAR: {
+            value: null,
+            currency: 'PLN',
+          },
+        },
       },
       defaultItem: {
         id: null,
-        start: null,
-        room: null,
-        movie: null,
-        prices: null,
+        room: {
+          id: null,
+        },
+        movie: {
+          id: null,
+        },
+        prices: {
+          REGULAR: {
+            value: null,
+            currency: 'PLN',
+          },
+        },
       },
     };
   },
@@ -160,7 +176,7 @@ export default {
       }, 300);
     },
     save(data) {
-      const payload = { ...data, cinema: { id: this.activeCinema } };
+      const payload = { ...data };
       if (!this.isEditing) {
         this.createSeance(payload).then(() => this.fetch());
       } else {

@@ -34,7 +34,7 @@
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td class="text-xs-right">{{ props.item.name }}</td>
-                <td class="justify-center layout px-0">
+                <td class="justify-center align-center layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>

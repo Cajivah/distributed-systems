@@ -36,4 +36,8 @@ export default {
 };
 </script>
 <style lang="scss">
+  .application {
+    /*Do try this at home!*/
+    background: #BACDB0!important;
+  }
 </style>
