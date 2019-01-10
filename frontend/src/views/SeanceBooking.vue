@@ -13,7 +13,7 @@
             <v-expansion-panel-content>
                 <div slot="header">Reservation</div>
                 <TheSeatSelection>
-                        <v-layout row :key="row.id" slot="seats" v-for="row in rows">
+                        <v-layout row :key="row.id" slot="seats" v-for="row in rows" align-center>
                             <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
@@ -24,7 +24,7 @@
                                     class="title headline" :key="seat.id" v-for="seat in row.seats">
                                 <v-checkbox
                                         :off-icon="'event_seat'"
-                                        :on-icon="'event_seat md-64'"
+                                        :on-icon="'event_seat'"
                                             v-model="seats"
                                             :disabled="seat.occupied"
                                             :value="`${seat.id}`"></v-checkbox>
