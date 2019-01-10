@@ -27,7 +27,29 @@
                 </TheSeatSelection>
             </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-dialog v-model="reservationDialog" persistent max-width="600px">
+        <v-dialog v-model="sellingSeatsCompleted" width="600">
+            <v-alert
+                    :value="true"
+                    type="success">
+                Successfully sold seats
+            </v-alert>
+            <v-btn
+                    color="primary"
+                    flat
+                    @click="sellingSeatsCompleted = false">Close</v-btn>
+        </v-dialog>
+        <v-dialog v-if="isAuthenticated" v-model="seatsSellingDialog" width="600">
+            <TheSeatsSellingDialog
+                    :selectedSeats="seats"
+                    :error="sellingSeatsError"
+            :inProgress="sellingSeatsInProgress">
+                <template slot="actions">
+                    <v-btn color="primary" flat @click="cancelSeatSelling()">Cancel</v-btn>
+                    <v-btn color="primary" flat @click="sellSeats()">Sell selected seats</v-btn>
+                </template>
+            </TheSeatsSellingDialog>
+        </v-dialog>
+        <v-dialog v-if="!isAuthenticated" v-model="reservationDialog" persistent max-width="600px">
             <v-btn slot="activator" color="primary" dark>Make a reservation</v-btn>
             <TheBookingDialog :seatCount="seats.length">
                 <v-text-field slot="firstNameField"
@@ -91,6 +113,7 @@ import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection.vue';
 import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary.vue';
 import { SEANCE_DETAILS_STORE } from '@/store/seanceDetails/seanceDetails.module';
 import { BOOKING_SUCCESSFUL } from '@/routes';
+import TheSeatsSellingDialog from '@/components/seanceDetails/TheSeatsSellingDialog.vue';
 
 const { mapActions, mapGetters } = createNamespacedHelpers(SEANCE_DETAILS_STORE);
 
@@ -100,11 +123,14 @@ export default {
       panel: [false, false, true],
       loading: true,
       reservationDialog: false,
+      seatsSellingDialog: false,
+      sellingSeatsCompleted: false,
       summaryDialog: false,
     };
   },
   name: 'seance-booking',
   components: {
+    TheSeatsSellingDialog,
     TheLoadingIndicator,
     TheBookingDialog,
     TheMovieDetails,
@@ -114,8 +140,12 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError',
+      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError', 'sellingSeatsError',
+      'sellingSeatsInProgress',
     ]),
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
     isFormDirty() {
       return keys(this.fields).every(key => this.fields[key].dirty);
     },
@@ -170,8 +200,22 @@ export default {
           this.$router.push({ name: BOOKING_SUCCESSFUL });
         });
     },
+    sellSeats() {
+      this.sendSeatSellingRequest()
+        .then(() => {
+          this.closeSeatSellingDialog();
+          this.fetchPageData();
+          this.sellingSeatsCompleted = true;
+        });
+    },
     cancelReservation() {
       this.closeSummaryDialog();
+    },
+    cancelSeatSelling() {
+      this.closeSeatSellingDialog();
+    },
+    closeSeatSellingDialog() {
+      this.seatsSellingDialog = false;
     },
     closeSummaryDialog() {
       this.summaryDialog = false;
@@ -187,14 +231,18 @@ export default {
       setEmail: actions.TYPE_EMAIL,
       fetchDetails: actions.FETCH_DETAILS,
       sendReservationRequest: actions.MAKE_RESERVATION,
+      sendSeatSellingRequest: actions.SELL_SEATS,
     }),
+    fetchPageData() {
+      this.loading = true;
+      this.fetchDetails(this.$route.params.seanceId)
+        .finally(() => {
+          this.loading = false;
+        });
+    },
   },
   created() {
-    this.loading = true;
-    this.fetchDetails(this.$route.params.seanceId)
-      .finally(() => {
-        this.loading = false;
-      });
+    this.fetchPageData();
   },
 };
 </script>

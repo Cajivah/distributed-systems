@@ -13,3 +13,6 @@ export const makeReservation = ({
   },
   seatIds: selectedSeats,
 });
+export const sellSeats = (id, seats) => Vue.axios.post(`/seances/${id}/sell`, {
+  seatIds: seats,
+});

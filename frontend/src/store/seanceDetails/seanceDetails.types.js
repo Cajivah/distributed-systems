@@ -14,6 +14,9 @@ const SEND_RESERVATION_REQUEST = 'sendReservationRequest';
 const SET_RESERVATION_SUCCESSFUL = 'reservationSuccessful';
 const SET_RESERVATION_ERROR = 'reservationError';
 const SET_RESERVATION_PROGRESS = 'reservationInProgress';
+const SELL_SEATS = 'sellSeats';
+const SET_SELLING_SEATS_ERROR = 'sellingSeatsError';
+const SET_SELLING_SEATS_PROGRESS = 'sellingSeatsProgress';
 
 
 export const actions = {
@@ -26,6 +29,7 @@ export const actions = {
   TYPE_SURNAME,
   TYPE_EMAIL,
   SEND_RESERVATION_REQUEST,
+  SELL_SEATS,
 };
 
 export const mutations = {
@@ -36,4 +40,6 @@ export const mutations = {
   SET_RESERVATION_ERROR,
   SET_RESERVATION_PROGRESS,
   SET_RESERVATION_SUCCESSFUL,
+  SET_SELLING_SEATS_ERROR,
+  SET_SELLING_SEATS_PROGRESS,
 };
