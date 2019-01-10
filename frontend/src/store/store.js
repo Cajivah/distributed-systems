@@ -7,6 +7,7 @@ import programme from './programme/programme.module';
 import seanceDetails, { SEANCE_DETAILS_STORE } from './seanceDetails/seanceDetails.module';
 import movies from './movie/movie.module';
 import rooms from './rooms/rooms.module';
+import seances from './seances/seances.module';
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     booking,
     movies,
     rooms,
+    seances,
     programme,
     [SEANCE_DETAILS_STORE]: {
       namespaced: true,

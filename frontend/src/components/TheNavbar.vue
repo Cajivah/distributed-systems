@@ -11,14 +11,14 @@
                     label="Choose cinema..."
                     item-text="name"
                     item-value="id"
-                    @change="redirectToCinema"
             ></v-select>
         </v-flex>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down toolbar">
             <template v-if="isAuthenticated" >
-                <v-btn class="mx-1" flat to="/movies">Movies</v-btn>
-                <v-btn class="mx-1" flat to="/rooms">Rooms</v-btn>
+                <v-btn class="mx-1" flat to="/movies-management">Movies</v-btn>
+                <v-btn class="mx-1" flat to="/seances-management">Seances</v-btn>
+                <v-btn class="mx-1" flat to="/rooms-management">Rooms</v-btn>
                 <a class="mr-3 text-xs-center text--color-white text--size-lg text--weight-md">
                     {{ userGreeter }}
                 </a>
@@ -62,9 +62,6 @@ export default {
     handleLogout() {
       this.$store.dispatch(LOGOUT)
         .then(() => this.$router.push({ name: 'login' }));
-    },
-    redirectToCinema() {
-      console.log(this.activeCinema);
     },
   },
 };

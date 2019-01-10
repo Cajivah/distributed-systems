@@ -15,7 +15,11 @@ const getters = {
 const actions = {
   [actionTypes.FETCH_MOVIES]({ commit }, data) {
     return fetchMovies(data)
-      .then(movies => commit(mutationTypes.SET_MOVIES, movies));
+      .then(movies => commit(mutationTypes.SET_MOVIES, movies))
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
   [actionTypes.CREATE_MOVIE]({ commit }, data) {
     return createMovie(data)
@@ -27,11 +31,19 @@ const actions = {
   },
   [actionTypes.FETCH_MOVIE]({ commit }, id) {
     return fetchMovie(id)
-      .then(movie => commit(mutationTypes.SET_SELECTED_MOVIE, movie));
+      .then(movie => commit(mutationTypes.SET_SELECTED_MOVIE, movie))
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
   [actionTypes.UPDATE_MOVIE]({ commit }, data) {
     return updateMovie(data)
-      .then(movie => commit(mutationTypes.SET_SELECTED_MOVIE, movie));
+      .then(movie => commit(mutationTypes.SET_SELECTED_MOVIE, movie))
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
 };
 

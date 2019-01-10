@@ -44,6 +44,11 @@ public class SeanceController {
           return seanceService.getAll(pageable);
      }
 
+     @GetMapping("/cinema/{cinemaId}")
+     public Page<Seance> getAll(Pageable pageable, @PathVariable String cinemaId) {
+          return seanceService.getAllByCinema(cinemaId, pageable);
+     }
+
      @GetMapping("/{id}")
      public SeanceExtendedDTO getExtendedInfo(@PathVariable Long id) {
           return seanceService.getExtendedInfo(id);

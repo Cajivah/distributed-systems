@@ -75,4 +75,8 @@ public class SeanceService {
                        .map(BookingSeat::getSeat)
                        .collect(Collectors.toList());
      }
+
+     public Page<Seance> getAllByCinema(String cinemaId, Pageable pageable) {
+          return seanceRepository.findAllByRoom_Cinema_Id(cinemaId, pageable);
+     }
 }
