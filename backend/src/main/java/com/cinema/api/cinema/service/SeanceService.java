@@ -2,6 +2,7 @@ package com.cinema.api.cinema.service;
 
 import com.cinema.api.cinema.mapper.SeanceMapper;
 import com.cinema.api.cinema.mapper.SeatsRowMapper;
+import com.cinema.api.cinema.model.dto.CreateSeanceDTO;
 import com.cinema.api.cinema.model.dto.SeanceExtendedDTO;
 import com.cinema.api.cinema.model.dto.SeanceWithSeatPrizesDTO;
 import com.cinema.api.cinema.model.dto.SeatsRowDTO;
@@ -37,8 +38,10 @@ public class SeanceService {
           return seanceRepository.findByCinemaIdAndDate(cinemaId, date);
      }
 
-     public Seance save(Seance seance) {
-          seance.setId(null);
+     public Seance save(CreateSeanceDTO seanceDTO) {
+          Movie movie = movieService.getOne(seanceDTO.getMovieId());
+          Room room = roomService.getOne(seanceDTO.getRoomId());
+          Seance seance = seanceMapper.toSeance(seanceDTO, movie, room);
           return seanceRepository.save(seance);
      }
 
