@@ -1,6 +1,7 @@
 package com.cinema.api.cinema.mapper;
 
 import com.cinema.api.cinema.model.dto.BasicSeanceDTO;
+import com.cinema.api.cinema.model.dto.CreateSeanceDTO;
 import com.cinema.api.cinema.model.dto.SeanceWithSeatPrizesDTO;
 import com.cinema.api.cinema.model.dto.UpdateSeanceDTO;
 import com.cinema.api.cinema.model.entity.Movie;
@@ -22,4 +23,8 @@ public interface SeanceMapper {
      @Mapping(target = "prices", source = "updateDTO.prices")
      @Mapping(target = "bookings", ignore = true)
      void update(@MappingTarget Seance seance, UpdateSeanceDTO updateDTO, Movie movie, Room room);
+
+     @Mapping(target = "id", ignore = true)
+     @Mapping(target = "bookings", ignore = true)
+     Seance toSeance(CreateSeanceDTO createSeanceDTO, Movie movie, Room room);
 }

@@ -35,7 +35,7 @@
                 <td class="text-xs-right">{{ props.item.title }}</td>
                 <td class="text-xs-right">{{ props.item.director }}</td>
                 <td class="text-xs-right">{{ props.item.lengthMinutes }}</td>
-                <td class="justify-center layout px-0">
+                <td class="justify-center align-center layout px-0">
                     <v-icon
                             small
                             class="mr-2"

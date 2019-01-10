@@ -57,7 +57,7 @@ public class UserCredentials {
 
      private boolean verified;
 
-     private boolean locked;
+     private boolean locked = true;
 
      @ManyToMany(fetch = FetchType.EAGER)
      private Collection<Role> roles;

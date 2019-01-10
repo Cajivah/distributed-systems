@@ -13,21 +13,51 @@
             <v-expansion-panel-content>
                 <div slot="header">Reservation</div>
                 <TheSeatSelection>
-                        <template slot="seats" v-for="row in rows">
+                        <v-layout row :key="row.id" slot="seats" v-for="row in rows" align-center>
                             <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
-                            <v-checkbox v-for="seat in row.seats"
-                                        :key="seat.id"
-                                        v-model="seats"
-                                        :disabled="seat.occupied"
-                                        :label="`${row.id}-${seat.id}`"
-                                        :value="`${seat.id}`"></v-checkbox>
-                        </template>
+                            <v-flex class="text-md-center" flex>
+                                {{row.id}}
+                            </v-flex>
+                            <v-flex grow
+                                    class="title headline" :key="seat.id" v-for="seat in row.seats">
+                                <v-checkbox
+                                        :off-icon="'event_seat'"
+                                        :on-icon="'event_seat'"
+                                            v-model="seats"
+                                            :disabled="seat.occupied"
+                                            :value="`${seat.id}`"></v-checkbox>
+                            </v-flex>
+                        </v-layout>
                 </TheSeatSelection>
             </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-dialog v-model="reservationDialog" persistent max-width="600px">
+        <v-dialog v-model="sellingSeatsCompleted" width="600">
+            <v-alert
+                    :value="true"
+                    type="success">
+                Successfully sold seats
+            </v-alert>
+            <v-btn
+                    color="primary"
+                    flat
+                    @click="sellingSeatsCompleted = false">Close</v-btn>
+        </v-dialog>
+        <v-dialog v-if="isAuthenticated" v-model="seatsSellingDialog" width="600">
+            <v-btn slot="activator" color="primary" dark>Sell seats</v-btn>
+            <TheSeatsSellingDialog
+                    :selectedSeats="seats"
+                    :error="sellingSeatsError"
+            :inProgress="sellingSeatsInProgress">
+                <template slot="actions">
+                    <v-btn color="primary" flat @click="cancelSeatSelling()">Cancel</v-btn>
+                    <v-btn color="primary" flat @click="sellSeats()"
+                    :disabled="seats.length === 0">Sell selected seats</v-btn>
+                </template>
+            </TheSeatsSellingDialog>
+        </v-dialog>
+        <v-dialog v-if="!isAuthenticated" v-model="reservationDialog" persistent max-width="600px">
             <v-btn slot="activator" color="primary" dark>Make a reservation</v-btn>
             <TheBookingDialog :seatCount="seats.length">
                 <v-text-field slot="firstNameField"
@@ -90,6 +120,8 @@ import TheSeanceDetails from '@/components/seanceDetails/TheSeanceDetails.vue';
 import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection.vue';
 import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary.vue';
 import { SEANCE_DETAILS_STORE } from '@/store/seanceDetails/seanceDetails.module';
+import { BOOKING_SUCCESSFUL } from '@/routes';
+import TheSeatsSellingDialog from '@/components/seanceDetails/TheSeatsSellingDialog.vue';
 
 const { mapActions, mapGetters } = createNamespacedHelpers(SEANCE_DETAILS_STORE);
 
@@ -99,11 +131,14 @@ export default {
       panel: [false, false, true],
       loading: true,
       reservationDialog: false,
+      seatsSellingDialog: false,
+      sellingSeatsCompleted: false,
       summaryDialog: false,
     };
   },
   name: 'seance-booking',
   components: {
+    TheSeatsSellingDialog,
     TheLoadingIndicator,
     TheBookingDialog,
     TheMovieDetails,
@@ -113,8 +148,12 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError',
+      'movie', 'seance', 'rows', 'reservationDetails', 'reservationInProgress', 'reservationError', 'sellingSeatsError',
+      'sellingSeatsInProgress',
     ]),
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
     isFormDirty() {
       return keys(this.fields).every(key => this.fields[key].dirty);
     },
@@ -164,10 +203,27 @@ export default {
     },
     makeReservation() {
       this.sendReservationRequest()
-        .then(() => this.closeSummaryDialog());
+        .then(() => {
+          this.closeSummaryDialog();
+          this.$router.push({ name: BOOKING_SUCCESSFUL });
+        });
+    },
+    sellSeats() {
+      this.sendSeatSellingRequest()
+        .then(() => {
+          this.closeSeatSellingDialog();
+          this.fetchPageData();
+          this.sellingSeatsCompleted = true;
+        });
     },
     cancelReservation() {
       this.closeSummaryDialog();
+    },
+    cancelSeatSelling() {
+      this.closeSeatSellingDialog();
+    },
+    closeSeatSellingDialog() {
+      this.seatsSellingDialog = false;
     },
     closeSummaryDialog() {
       this.summaryDialog = false;
@@ -183,14 +239,18 @@ export default {
       setEmail: actions.TYPE_EMAIL,
       fetchDetails: actions.FETCH_DETAILS,
       sendReservationRequest: actions.MAKE_RESERVATION,
+      sendSeatSellingRequest: actions.SELL_SEATS,
     }),
+    fetchPageData() {
+      this.loading = true;
+      this.fetchDetails(this.$route.params.seanceId)
+        .finally(() => {
+          this.loading = false;
+        });
+    },
   },
   created() {
-    this.loading = true;
-    this.fetchDetails(this.$route.params.seanceId)
-      .finally(() => {
-        this.loading = false;
-      });
+    this.fetchPageData();
   },
 };
 </script>

@@ -1,6 +1,7 @@
 package com.cinema.api.cinema.controller;
 
 import com.cinema.api.cinema.model.dto.CreateBookingDTO;
+import com.cinema.api.cinema.model.dto.CreateSeanceDTO;
 import com.cinema.api.cinema.model.dto.SeanceExtendedDTO;
 import com.cinema.api.cinema.model.dto.SellSeatDTO;
 import com.cinema.api.cinema.model.dto.UpdateSeanceDTO;
@@ -35,13 +36,18 @@ public class SeanceController {
      private final ApplicationEventPublisher eventPublisher;
 
      @PostMapping
-     public Seance save(@RequestBody Seance seance) {
-          return seanceService.save(seance);
+     public Seance save(@RequestBody CreateSeanceDTO seanceDTO) {
+          return seanceService.save(seanceDTO);
      }
 
      @GetMapping
      public Page<Seance> getAll(Pageable pageable) {
           return seanceService.getAll(pageable);
+     }
+
+     @GetMapping("/cinema/{cinemaId}")
+     public Page<Seance> getAll(Pageable pageable, @PathVariable String cinemaId) {
+          return seanceService.getAllByCinema(cinemaId, pageable);
      }
 
      @GetMapping("/{id}")

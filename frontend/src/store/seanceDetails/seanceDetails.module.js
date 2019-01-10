@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { actions as actionTypes, mutations as mutationTypes } from './seanceDetails.types';
-import { fetchSeanceDetails, makeReservation } from './seanceDetails.api';
+import { fetchSeanceDetails, makeReservation, sellSeats } from './seanceDetails.api';
 
 export const SEANCE_DETAILS_STORE = 'seanceDetails';
 
@@ -16,6 +16,8 @@ const state = {
   },
   reservationInProgress: false,
   reservationError: null,
+  sellingSeatsInProgress: false,
+  sellingSeatsError: null,
 };
 
 const getters = {
@@ -25,6 +27,8 @@ const getters = {
   reservationDetails: state => state.reservationDetails,
   reservationInProgress: state => state.reservationInProgress,
   reservationError: state => state.reservationError,
+  sellingSeatsInProgress: state => state.sellingSeatsInProgress,
+  sellingSeatsError: state => state.sellingSeatsError,
 };
 
 const actions = {
@@ -76,6 +80,16 @@ const actions = {
       value: surname,
     });
   },
+  [actionTypes.SELL_SEATS]({ commit }) {
+    commit(mutationTypes.SET_SELLING_SEATS_PROGRESS, true);
+    return sellSeats(state.seance.id, state.reservationDetails.selectedSeats)
+      .catch((reason) => {
+        commit(mutationTypes.SET_SELLING_SEATS_ERROR, reason);
+        throw reason;
+      })
+      .finally(() => commit(mutationTypes.SET_SELLING_SEATS_PROGRESS, false))
+      .finally(() => commit(mutationTypes.SET_SELECTED_SEATS, []));
+  },
 };
 
 const mutations = {
@@ -98,6 +112,12 @@ const mutations = {
   },
   [mutationTypes.SET_RESERVATION_ERROR](context, error) {
     Vue.set(state, 'reservationError', error);
+  },
+  [mutationTypes.SET_SELLING_SEATS_PROGRESS](context, progress) {
+    Vue.set(state, 'sellingSeatsInProgress', progress);
+  },
+  [mutationTypes.SET_SELLING_SEATS_ERROR](context, error) {
+    Vue.set(state, 'sellingSeatsError', error);
   },
 };
 

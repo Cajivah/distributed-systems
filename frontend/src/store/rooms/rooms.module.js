@@ -13,7 +13,11 @@ const getters = {
 const actions = {
   [actionTypes.FETCH_ROOMS]({ commit }, data) {
     return fetchRooms(data)
-      .then(rooms => commit(mutationTypes.SET_ROOMS, rooms));
+      .then(rooms => commit(mutationTypes.SET_ROOMS, rooms))
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
   [actionTypes.CREATE_ROOM](_, data) {
     const payload = prepareRoomPayload(data);
@@ -25,7 +29,11 @@ const actions = {
   },
   [actionTypes.UPDATE_ROOM](_, data) {
     const payload = prepareRoomPayload(data);
-    return updateRoom(payload);
+    return updateRoom(payload)
+      .catch(({ response }) => {
+        showErrorToasts(response.data);
+        throw response.data;
+      });
   },
 };
 

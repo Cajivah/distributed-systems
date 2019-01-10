@@ -10,8 +10,8 @@
                         <v-form>
                             <v-text-field prepend-icon="person"
                                           v-model="loginForm.username"
-                                          name="Username or email"
-                                          label="Username or email"
+                                          name="Username"
+                                          label="Username"
                                           v-validate="'required'"
                                           :error-messages="errors.collect('Username or email')"
                                           type="text">

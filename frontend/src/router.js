@@ -2,10 +2,18 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
-import Home from './views/Home.vue';
 import Verification from './views/Verification.vue';
 import Cancellation from './views/Cancellation.vue';
-import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES, MOVIES, ROOMS } from './routes';
+import {
+  MOVIE_DETAILS,
+  SEANCE_BOOKING,
+  SEANCES,
+  MOVIES_MANAGEMENT,
+  ROOMS_MANAGEMENT,
+  SEANCES_MANAGEMENT,
+  BOOKING_SUCCESSFUL,
+  HOME,
+} from './routes';
 
 Vue.use(Router);
 
@@ -13,8 +21,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: HOME,
+      redirect: { name: SEANCES },
     },
     {
       path: '/verification',
@@ -47,19 +55,29 @@ export default new Router({
       component: () => import('./views/MovieDetails'),
     },
     {
-      path: '/movies',
-      name: MOVIES,
+      path: '/movies-management',
+      name: MOVIES_MANAGEMENT,
       component: () => import('./views/Movies'),
     },
     {
-      path: '/rooms',
-      name: ROOMS,
+      path: '/rooms-management',
+      name: ROOMS_MANAGEMENT,
       component: () => import('./views/Rooms'),
+    },
+    {
+      path: '/seances-management',
+      name: SEANCES_MANAGEMENT,
+      component: () => import('./views/SeancesManagement'),
     },
     {
       path: '/seances/:seanceId',
       name: SEANCE_BOOKING,
       component: () => import('./views/SeanceBooking'),
+    },
+    {
+      path: '/reservation-successful',
+      name: BOOKING_SUCCESSFUL,
+      component: () => import('./views/BookingSuccessful'),
     },
   ],
 });
