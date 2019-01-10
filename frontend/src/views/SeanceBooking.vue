@@ -13,18 +13,22 @@
             <v-expansion-panel-content>
                 <div slot="header">Reservation</div>
                 <TheSeatSelection>
-                        <v-layout row :key="row" slot="seats" v-for="row in rows">
+                        <v-layout row :key="row.id" slot="seats" v-for="row in rows">
                             <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
-                            <v-flex grow pa-1 :key="seat.id" v-for="seat in row.seats">
+                            <v-flex grow>
+                                1
+                            </v-flex>
+                            <v-flex grow :key="seat.id" v-for="seat in row.seats">
                                 <v-checkbox
+                                        large
+                                        :off-icon="'event_seat'"
+                                        :on-icon="'event_seat'"
                                             v-model="seats"
                                             :disabled="seat.occupied"
-                                            :label="`${row.id}-${seat.id}`"
                                             :value="`${seat.id}`"></v-checkbox>
                             </v-flex>
-
                         </v-layout>
                 </TheSeatSelection>
             </v-expansion-panel-content>
