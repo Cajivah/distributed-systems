@@ -17,13 +17,14 @@
                             <!-- TODO(bgulowaty): i have no idea how to wrap this nicely
                             since v-model = :value @input, and yet component reacts
                             to separate :value -->
-                            <v-flex grow>
+                            <v-flex class="text-md-center" flex>
                                 {{row.id}}
                             </v-flex>
-                            <v-flex grow :key="seat.id" v-for="seat in row.seats">
+                            <v-flex grow
+                                    class="title headline" :key="seat.id" v-for="seat in row.seats">
                                 <v-checkbox
                                         :off-icon="'event_seat'"
-                                        :on-icon="'event_seat'"
+                                        :on-icon="'event_seat md-64'"
                                             v-model="seats"
                                             :disabled="seat.occupied"
                                             :value="`${seat.id}`"></v-checkbox>
