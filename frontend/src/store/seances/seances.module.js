@@ -27,7 +27,13 @@ const actions = {
       });
   },
   [actionTypes.UPDATE_SEANCE](_, data) {
-    return updateSeance(data)
+    const {
+      room, movie, start, prices, id,
+    } = data;
+    const payload = {
+      roomId: room.id, movieId: movie.id, start, prices, id,
+    };
+    return updateSeance(payload)
       .catch(({ response }) => {
         showErrorToasts(response.data);
         throw response.data;

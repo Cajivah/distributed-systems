@@ -7,10 +7,10 @@
             <v-container grid-list-md>
                 <v-layout wrap>
                     <v-flex xs12>
-                        <v-date-picker
-                                v-model="form.start"
-                                no-title
-                        ></v-date-picker>
+                        <v-datetime-picker
+                                label="Select start"
+                                v-model="form.start">
+                        </v-datetime-picker>
                         <v-select
                                 :items="rooms.content"
                                 v-model="form.room.id"
@@ -25,7 +25,7 @@
                                 item-text="title"
                                 item-value="id"
                         ></v-select>
-                        <v-text-field v-model="form.prices.REGULAR"
+                        <v-text-field v-model="form.prices.REGULAR.value"
                                       label="Price"
                         ></v-text-field>
                     </v-flex>
@@ -60,7 +60,10 @@ export default {
           id: null,
         },
         prices: {
-          REGULAR: null,
+          REGULAR: {
+            value: null,
+            currency: 'PLN',
+          },
         },
       },
     };
