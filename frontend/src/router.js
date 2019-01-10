@@ -4,7 +4,16 @@ import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
 import Verification from './views/Verification.vue';
 import Cancellation from './views/Cancellation.vue';
-import { MOVIE_DETAILS, SEANCE_BOOKING, SEANCES, MOVIES_MANAGEMENT, ROOMS_MANAGEMENT, SEANCES_MANAGEMENT } from './routes';
+import {
+  MOVIE_DETAILS,
+  SEANCE_BOOKING,
+  SEANCES,
+  MOVIES_MANAGEMENT,
+  ROOMS_MANAGEMENT,
+  SEANCES_MANAGEMENT,
+  BOOKING_SUCCESSFUL,
+  HOME,
+} from './routes';
 
 Vue.use(Router);
 
@@ -12,7 +21,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: HOME,
       redirect: { name: SEANCES },
     },
     {
@@ -64,6 +73,11 @@ export default new Router({
       path: '/seances/:seanceId',
       name: SEANCE_BOOKING,
       component: () => import('./views/SeanceBooking'),
+    },
+    {
+      path: '/reservation-successful',
+      name: BOOKING_SUCCESSFUL,
+      component: () => import('./views/BookingSuccessful'),
     },
   ],
 });

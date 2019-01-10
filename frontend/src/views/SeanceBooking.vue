@@ -90,6 +90,7 @@ import TheSeanceDetails from '@/components/seanceDetails/TheSeanceDetails.vue';
 import TheSeatSelection from '@/components/seanceDetails/TheSeatSelection.vue';
 import TheBookingSummary from '@/components/seanceDetails/TheBookingSummary.vue';
 import { SEANCE_DETAILS_STORE } from '@/store/seanceDetails/seanceDetails.module';
+import { BOOKING_SUCCESSFUL } from '@/routes';
 
 const { mapActions, mapGetters } = createNamespacedHelpers(SEANCE_DETAILS_STORE);
 
@@ -164,7 +165,10 @@ export default {
     },
     makeReservation() {
       this.sendReservationRequest()
-        .then(() => this.closeSummaryDialog());
+        .then(() => {
+          this.closeSummaryDialog();
+          this.$router.push({ name: BOOKING_SUCCESSFUL });
+        });
     },
     cancelReservation() {
       this.closeSummaryDialog();
