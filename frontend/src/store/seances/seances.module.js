@@ -20,7 +20,13 @@ const actions = {
       });
   },
   [actionTypes.CREATE_SEANCE](_, data) {
-    return createSeance(data)
+    const {
+      room, movie, start, prices,
+    } = data;
+    const payload = {
+      roomId: room.id, movieId: movie.id, start, prices,
+    };
+    return createSeance(payload)
       .catch(({ response }) => {
         showErrorToasts(response.data);
         throw response.data;

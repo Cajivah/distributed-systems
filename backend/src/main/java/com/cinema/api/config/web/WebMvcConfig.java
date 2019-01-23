@@ -53,6 +53,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
           registry.addResourceHandler("/css/**")
                   .addResourceLocations("classpath:/static/css/");
 
+          registry.addResourceHandler("/fonts/**")
+                  .addResourceLocations("classpath:/static/fonts/");
+
           registry.addResourceHandler("swagger-ui.html")
                   .addResourceLocations("classpath:/META-INF/resources/");
 

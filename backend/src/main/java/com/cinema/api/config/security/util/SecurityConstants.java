@@ -20,6 +20,7 @@ public class SecurityConstants {
           "/js/**",
           "/css/**",
           "/img/**",
+          "/fonts/**",
           "/favicon.ico",
           "/programme/**",
      };
