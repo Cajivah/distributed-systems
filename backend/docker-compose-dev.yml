@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  cinema-backend:
+    environment:
+      READ_PORT: 5440
+      PORT: 8080
+    build:
+      context: ./
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - cinema-database
+      - cinema-session-redis
+
+  cinema-database:
+    image: postgres:11-alpine
+    environment: 
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
+    ports: 
+     - 5440:5432
+
+  cinema-session-redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379

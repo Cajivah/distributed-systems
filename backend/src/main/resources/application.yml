@@ -1,7 +1,7 @@
 read:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5441/example
-    url: jdbc:postgresql://localhost:5441/example
+    jdbc-url: jdbc:postgresql://localhost:${READ_PORT:5441}/example
+    url: jdbc:postgresql://localhost:${READ_PORT:5441}/example
     username: example
     password: example
     driver-class-name: org.postgresql.Driver
@@ -52,11 +52,12 @@ mail:
 
 routes:
   frontendOrigins:
-    - 'https://192.168.0.10'
-    - 'https://localhost'
-    - 'http://localhost:8080'
-  changePasswordTemplate: 'http://localhost:8080/#/change-password?token=%s'
-  verification_template: 'http://localhost:8080/app#/verification?token=%s'
-  bookingDeletionTemplate: 'http://localhost:8080/app#/cancellation?token=%s'
+    - "https://192.168.0.10"
+    - "https://localhost"
+    - "http://localhost:${server.port}"
+  changePasswordTemplate: 'http://localhost:${server.port}/#/change-password?token=%s'
+  verification_template: 'http://localhost:${server.port}/app#/verification?token=%s'
+  bookingDeletionTemplate: 'http://localhost:${server.port}/app#/cancellation?token=%s'
+
 server:
-  port: 8080
+  port: ${PORT:8080}

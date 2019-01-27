@@ -1,25 +1,95 @@
-version: '3'
+version: '3.7'
 
 services:
   cinema-backend:
+    environment:
+      READ_PORT: 5440
+      PORT: 8080
     build:
       context: ./
       dockerfile: build/docker/Dockerfile
     network_mode: host
     depends_on:
-      - cinema-database
+      - db-master
+      - db-slave-1
+      - db-slave-2
       - cinema-session-redis
 
-  cinema-database:
-    image: postgres:11-alpine
-    environment: 
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cinema-db
-    ports: 
-     - 5432:5432
+  cinema-slave-1:
+    environment:
+      READ_PORT: 5441
+      PORT: 8081
+    build:
+      context: ./
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - db-master
+      - db-slave-1
+      - db-slave-2
+      - cinema-session-redis
+
+  cinema-slave-2:
+    environment:
+      READ_PORT: 5442
+      PORT: 8082
+    build:
+      context: ./
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - db-master
+      - db-slave-1
+      - db-slave-2
+      - cinema-session-redis
+
+  db-master:
+    build: ../databases/master-server
+    ports:
+      - 5440:5432
+    networks:
+      - persistence-network
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+      POSTGRES_DB: example
+      REPLICATION_USERS_FILE: '/docker-entrypoint-initdb.d/replication-users.txt'
+
+  db-slave-1:
+    build: ../databases/slave-db
+    depends_on:
+      - db-master
+    ports:
+      - 5441:5432
+    networks:
+      - persistence-network
+    environment:
+      REPLICATION_USER: repuser
+      REPLICATION_PASSWORD: password
+      REPLICATION_SLOT: replica_1_slot
+      REPLICATION_MASTER_ADDRESS: db-master
+      REPLICATION_MASTER_PORT: '5432'
+
+  db-slave-2:
+    build: ../databases/slave-db
+    depends_on:
+      - db-master
+    ports:
+      - 5442:5432
+    networks:
+      - persistence-network
+    environment:
+      REPLICATION_USER: repuser2
+      REPLICATION_PASSWORD: password2
+      REPLICATION_SLOT: replica_2_slot
+      REPLICATION_MASTER_ADDRESS: db-master
+      REPLICATION_MASTER_PORT: '5432'
 
   cinema-session-redis:
     image: redis:alpine
     ports:
-     - 6379:6379
+      - 6379:6379
+
+networks:
+  persistence-network:
+    driver: bridge
